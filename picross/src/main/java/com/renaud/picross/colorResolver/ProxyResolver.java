@@ -62,6 +62,14 @@ public class ProxyResolver implements ColorResolver {
 
 	}
 
+	public List<Color> getModel() {
+		return model;
+	}
+
+	public void setModel(List<Color> model) {
+		this.model = model;
+	}
+
 	public void resolve(Picross p) {
 
 		for (int j = 0; j < (p.getLargeur() * p.getHauteur()); j++) {

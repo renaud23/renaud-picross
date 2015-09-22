@@ -227,4 +227,10 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void transparentClean() {
+		// TODO Auto-generated method stub
+		
+	}
 }

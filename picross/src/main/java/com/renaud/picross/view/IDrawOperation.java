@@ -7,31 +7,33 @@ import java.awt.image.BufferedImage;
 
 public interface IDrawOperation {
 
-	public Image getImage();
+	Image getImage();
 
-	public void clean();
+	void clean();
 
-	public void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scale, float alpha);
+	void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scale, float alpha);
 
-	public void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scaleX, double scaleY, float alpha);
+	void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scaleX, double scaleY, float alpha);
 
-	public void drawImage(Image image, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2);
+	void drawImage(Image image, int dx1, int dy1, int dx2, int dy2, int sx1, int sy1, int sx2, int sy2);
 
-	public void drawRect(Color color, int x, int y, int width, int height);
+	void drawRect(Color color, int x, int y, int width, int height);
 
-	public void fillRect(Color color, double x, double y, double width, double height, float alpha);
+	void fillRect(Color color, double x, double y, double width, double height, float alpha);
 
-	public void fillCircle(Color color, double x, double y, double rayon, float alpha);
+	void fillCircle(Color color, double x, double y, double rayon, float alpha);
 
-	public void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scale, float alpha, Composite composite);
+	void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scale, float alpha, Composite composite);
 
-	public void drawChar(String ch, int x, int y);
+	void drawChar(String ch, int x, int y);
 	
-	public void drawLine(Color color, int x1, int y1, int x2,int y2,float alpha);
+	void drawLine(Color color, int x1, int y1, int x2,int y2,float alpha);
 	
-	public void fillPolygone(Color color, int[] x, int[] y, float alpha);
+	void fillPolygone(Color color, int[] x, int[] y, float alpha);
 	
-	public void drawPolygone(Color color, int[] x, int[] y, float alpha);
+	void drawPolygone(Color color, int[] x, int[] y, float alpha);
 	
-	public void drawPolygone(int[] x, int[] y, BufferedImage img);
+	void drawPolygone(int[] x, int[] y, BufferedImage img);
+	
+	void transparentClean();
 }

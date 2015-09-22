@@ -13,7 +13,14 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
-import com.renaud.picross.generator.PicrossGenerator;
+import com.renaud.picross.colorResolver.ColorResolver;
+import com.renaud.picross.colorResolver.DistanceMixte;
+import com.renaud.picross.colorResolver.DistancePonderee;
+import com.renaud.picross.colorResolver.DistanceSimple;
+import com.renaud.picross.colorResolver.InspectorResolver;
+import com.renaud.picross.colorResolver.NullResolver;
+import com.renaud.picross.colorResolver.ProxyResolver;
+import com.renaud.picross.generator.PicrossGeneratorImpl;
 import com.renaud.picross.model.Picross;
 import com.renaud.picross.tools.SimpleImageLoader;
 
@@ -111,18 +118,25 @@ public class Fenetre implements Iterable<IDrawable> {
 	}
 
 	public final static void main(String[] args) {
-		Fenetre f = new Fenetre(800, 600);
+		Fenetre f = new Fenetre(600, 800);
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage("D:/projet_java/personnel/picross/src/main/resources/paris-8.jpg");
-		// Image image = sld.getImage("D:/projet_java/personnel/picross/src/main/resources/la-grand-mere-a-moustache.jpg");
-		// Image image = sld.getImage("D:/projet_java/personnel/picross/src/main/resources/madonna.jpg");
-
-		PicrossGenerator generator = new PicrossGenerator(image, 50);
-		Picross picross = generator.genere();
-		PicrosseDrawer drawer = new PicrosseDrawer(picross, Color.black, 800, 600, 10);
-		f.addDrawable(drawer);
+//		Image image = sld.getImage("E:/images/Photos/2015/2015-09/DSC_0602.JPG");
+		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross/src/main/resources/QUIZ_Les-personnages-de-Tintin_5472.jpeg");
+		Picross picross = new Picross();
+		f.addDrawable(addPicross(image, 0, 0, 30, 5,picross, new NullResolver()));
+		picross = new Picross();
+		f.addDrawable(addPicross(image, 150, 0, 30, 5,picross, new InspectorResolver(picross, new DistanceSimple(), 5)));
 
 		f.start();
+	}
+	
+	
+	private static PicrosseDrawer addPicross(Image image,int x, int y, int largeur, int pixelLargeur, Picross picross, ColorResolver resolver){
+		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(image, picross, largeur);
+		generator.setResolver(resolver);
+		generator.computeImage();
+		generator.computeColor();
+		return new PicrosseDrawer(picross, Color.black, x, y, largeur * pixelLargeur, picross.getHauteur() * pixelLargeur, pixelLargeur);
 	}
 
 }

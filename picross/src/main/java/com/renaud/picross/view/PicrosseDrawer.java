@@ -12,19 +12,37 @@ public class PicrosseDrawer implements IDrawable, DrawOperationAware {
 	private IDrawOperation drawer;
 	private boolean start = false;
 	private int pixelSize = 4;
+	
+	private int x;
+	private int y;
+	private boolean filled = false;
 
 	public PicrosseDrawer(Picross picross, Color color, int largeur, int hauteur, int pixelSize) {
 		buffer = new JImageBuffer(color, largeur, hauteur);
 		this.picross = picross;
 		this.pixelSize = pixelSize;
 	}
+	
+	public PicrosseDrawer(Picross picross, Color color, int x, int y, int largeur, int hauteur, int pixelSize) {
+		this.x = x;
+		this.y = y;
+		buffer = new JImageBuffer(color, largeur, hauteur);
+		this.picross = picross;
+		this.pixelSize = pixelSize;
+	}
 
 	public void render() {
-		buffer.clean();
-		for (int i = 0; i < picross.getHauteur(); i++) {
-			for (int j = 0; j < picross.getLargeur(); j++) {
-				buffer.fillRect(picross.getPixel(j, i), j * pixelSize, i * pixelSize, pixelSize - 1.0, pixelSize - 1.0, 1.0f);
+		if(!filled){
+			buffer.clean();
+			for (int i = 0; i < picross.getHauteur(); i++) {
+				for (int j = 0; j < picross.getLargeur(); j++) {
+					
+					int xi = j * pixelSize; 
+					int yi = i * pixelSize; 
+					buffer.fillRect(picross.getPixel(j, i), xi, yi, pixelSize - 1, pixelSize - 1, 1.0f);
+				}
 			}
+			filled = true;
 		}
 
 	}
@@ -43,9 +61,8 @@ public class PicrosseDrawer implements IDrawable, DrawOperationAware {
 	}
 
 	public void draw() {
-		this.drawer.clean();
 		this.render();
-		this.drawer.drawImage(buffer.getImage(), 0, 0, 0, 0, 0, 1.0, 1.0f);
+		this.drawer.drawImage(buffer.getImage(), x, y, 0, 0, 0, 1.0, 1.0f);
 	}
 
 	public void setDrawOperation(IDrawOperation op) {
