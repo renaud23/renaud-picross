@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.PixelGrabber;
 import java.util.concurrent.RejectedExecutionException;
 
+import com.renaud.picros.finalize.Finalizer;
 import com.renaud.picross.colorResolver.ColorResolver;
 import com.renaud.picross.colorResolver.DistanceSimple;
 import com.renaud.picross.colorResolver.ProxyResolver;
@@ -20,6 +21,7 @@ public class PicrossGeneratorImpl implements PicrossGenerator{
 	private int[] pixels;
 
 	private ColorResolver resolver;
+	private Finalizer finalizer;
 
 	public PicrossGeneratorImpl(Image image, Picross picross, int largeur) {
 		this.image = image;
@@ -94,13 +96,4 @@ public class PicrossGeneratorImpl implements PicrossGenerator{
 		picross.setColor(c, xi, yi);
 	}
 
-	public void computeColor() {
-		if(this.resolver != null){
-			resolver.resolve(picross);
-		}
-	}
-
-	public void setResolver(ColorResolver resolver) {
-		this.resolver = resolver;
-	}
 }

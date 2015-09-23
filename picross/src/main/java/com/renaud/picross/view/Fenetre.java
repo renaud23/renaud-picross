@@ -13,6 +13,10 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
+import com.renaud.picros.finalize.ColorFilter;
+import com.renaud.picros.finalize.ContrasterFinalizer;
+import com.renaud.picros.finalize.LighterFinalizer;
+import com.renaud.picros.finalize.Finalizer;
 import com.renaud.picross.colorResolver.ColorResolver;
 import com.renaud.picross.colorResolver.DistanceSimple;
 import com.renaud.picross.colorResolver.InspectorResolver;
@@ -116,20 +120,21 @@ public class Fenetre implements Iterable<IDrawable> {
 	public final static void main(String[] args) {
 		Fenetre f = new Fenetre(600, 480);
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross/src/main/resources/8281102-12956656.jpg");
+		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross/src/main/resources/ferrari.jpg");
 		Picross picross = new Picross();
 		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 8);
-		f.addDrawable(addPicross(image, 10, 10, 45, 5, picross, resolver));
+		Finalizer finalizer = new ColorFilter(false,false,true);
+		f.addDrawable(addPicross(image, 10, 10, 45, 5, picross, resolver, finalizer));
 		f.start();
 
 		System.out.println(resolver.getNbColor());
 	}
 
-	private static PicrosseDrawer addPicross(Image image, int x, int y, int largeur, int pixelLargeur, Picross picross, ColorResolver resolver) {
+	private static PicrosseDrawer addPicross(Image image, int x, int y, int largeur, int pixelLargeur, Picross picross, ColorResolver colorResolver, Finalizer finalizer) {
 		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(image, picross, largeur);
-		generator.setResolver(resolver);
 		generator.computeImage();
-		generator.computeColor();
+		colorResolver.resolve(picross);
+		finalizer.finalize(picross);
 		return new PicrosseDrawer(picross, Color.black, x, y, largeur * pixelLargeur, picross.getHauteur() * pixelLargeur, pixelLargeur);
 	}
 

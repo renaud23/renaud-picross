@@ -29,7 +29,7 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 
 	private int largeur;
 	private int hauteur;
-	private Color backgroundColor = Color.magenta;
+	private Color backgroundColor = Color.gray;
 
 	public CanvasHwdBuffer(int largeur, int hauteur) {
 		this.setPreferredSize(new Dimension(largeur, hauteur));
