@@ -2,19 +2,19 @@ package com.renaud.picross.colorResolver;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.renaud.picross.model.Picross;
 
 public class ProxyResolver implements ColorResolver {
 
-	private Picross p;
-
 	private List<Color> model = new ArrayList<Color>();
 	private DistanceResolver distance;
+	private Set<Color> resolved = new HashSet<>();
 
-	public ProxyResolver(Picross p, DistanceResolver distance) {
-		this.p = p;
+	public ProxyResolver(DistanceResolver distance) {
 		this.distance = distance;
 		model.add(new Color(200, 250, 200));
 		model.add(new Color(250, 200, 200));
@@ -82,11 +82,18 @@ public class ProxyResolver implements ColorResolver {
 					if (nor < normal) {
 						who = m;
 						normal = nor;
+						if (!resolved.contains(who)) {
+							resolved.add(who);
+						}
 					}
 				}
 			}
 			p.setColor(who, j % p.getLargeur(), j / p.getLargeur());
+
 		}
 	}
 
+	public int getNbColor() {
+		return resolved.size();
+	}
 }

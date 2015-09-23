@@ -11,6 +11,7 @@ public class SimpleResolver implements ColorResolver {
 
 	private Picross p;
 	private DistanceResolver distance;
+	private int nbColor = 5;
 
 	public SimpleResolver(Picross p, DistanceResolver distance) {
 		this.p = p;
@@ -21,15 +22,16 @@ public class SimpleResolver implements ColorResolver {
 		return p;
 	}
 
-	public void setP(Picross p) {
+	public void setP(Picross p, int nbColor) {
 		this.p = p;
+		this.nbColor = nbColor;
 	}
 
 	public void resolve(Picross p) {
 		Map<Color, Integer> map = this.makeMap();
 		int pos = 0;
 		Random r = new Random();
-		while (map.keySet().size() > 5) {
+		while (map.keySet().size() > nbColor) {
 			Color cdt = (Color) map.keySet().toArray()[r.nextInt(map.keySet().size())];
 			this.compact(map, cdt);
 			map = this.makeMap();
@@ -72,6 +74,11 @@ public class SimpleResolver implements ColorResolver {
 				p.setColor(ref, j % p.getLargeur(), j / p.getLargeur());
 			}
 		}
+	}
+
+	@Override
+	public int getNbColor() {
+		return nbColor;
 	}
 
 }

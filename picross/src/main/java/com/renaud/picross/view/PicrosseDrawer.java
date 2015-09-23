@@ -12,7 +12,7 @@ public class PicrosseDrawer implements IDrawable, DrawOperationAware {
 	private IDrawOperation drawer;
 	private boolean start = false;
 	private int pixelSize = 4;
-	
+
 	private int x;
 	private int y;
 	private boolean filled = false;
@@ -22,7 +22,7 @@ public class PicrosseDrawer implements IDrawable, DrawOperationAware {
 		this.picross = picross;
 		this.pixelSize = pixelSize;
 	}
-	
+
 	public PicrosseDrawer(Picross picross, Color color, int x, int y, int largeur, int hauteur, int pixelSize) {
 		this.x = x;
 		this.y = y;
@@ -32,13 +32,13 @@ public class PicrosseDrawer implements IDrawable, DrawOperationAware {
 	}
 
 	public void render() {
-		if(!filled){
-			buffer.clean();
+		if (!filled) {
+			buffer.transparentClean();
 			for (int i = 0; i < picross.getHauteur(); i++) {
 				for (int j = 0; j < picross.getLargeur(); j++) {
-					
-					int xi = j * pixelSize; 
-					int yi = i * pixelSize; 
+
+					int xi = j * pixelSize;
+					int yi = i * pixelSize;
 					buffer.fillRect(picross.getPixel(j, i), xi, yi, pixelSize - 1, pixelSize - 1, 1.0f);
 				}
 			}

@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Polygon;
@@ -15,7 +14,6 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -31,13 +29,14 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 
 	private int largeur;
 	private int hauteur;
+	private Color backgroundColor = Color.magenta;
 
 	public CanvasHwdBuffer(int largeur, int hauteur) {
 		this.setPreferredSize(new Dimension(largeur, hauteur));
 		this.setIgnoreRepaint(true);
 		this.setVisible(true);
 
-		this.largeur = hauteur;
+		this.largeur = largeur;
 		this.hauteur = hauteur;
 	}
 
@@ -54,7 +53,7 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 
 	public void clean() {
 		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
-
+		gr.setBackground(backgroundColor);
 		gr.clearRect(0, 0, largeur, hauteur);
 
 	}
@@ -181,56 +180,51 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 		gr.drawString(ch, x, y);
 	}
 
-
-
-
 	public void fillPolygone(Color color, int[] x, int[] y, float alpha) {
 		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
 		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		
+
 		gr.setColor(color);
 		Shape s = new Polygon(x, y, x.length);
 		gr.fill(s);
 	}
-	
-	
+
 	public void drawPolygone(Color color, int[] x, int[] y, float alpha) {
 		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
 		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		
-		
+
 		gr.setColor(color);
 		Shape s = new Polygon(x, y, x.length);
 		gr.draw(s);
 	}
-	
+
 	public void drawPolygone(int[] x, int[] y, BufferedImage img) {
 		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
-//		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		
+		// gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
 		Rectangle r = new Rectangle(0, 0, 280, 280);
 		TexturePaint tx = new TexturePaint(img, r);
 		gr.setPaint(tx);
-		
+
 		Shape s = new Polygon(x, y, x.length);
 		gr.fill(s);
 	}
 
 	public void fillCircle(Color color, double x, double y, double rayon,
-			float alpha) {
+		float alpha) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void drawLine(Color color, int x1, int y1, int x2, int y2,
-			float alpha) {
+		float alpha) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void transparentClean() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
