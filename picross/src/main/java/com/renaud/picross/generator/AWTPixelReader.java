@@ -29,9 +29,9 @@ public class AWTPixelReader implements PixelReader {
 			try {
 				pg.grabPixels();
 				for(int i=0;i<t;i++){
-					pt.setPixel(new Couleur(), i % l, i / l);
+					pt.setPixel(new Couleur(data[i]), i % l, i / l);
 				}
-				
+				return pt;
 			}
 			catch (InterruptedException e) {
 				throw new RejectedExecutionException("Impossible de lire les pixels de l'image.", e);

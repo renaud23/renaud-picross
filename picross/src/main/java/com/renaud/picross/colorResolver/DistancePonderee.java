@@ -1,21 +1,21 @@
 package com.renaud.picross.colorResolver;
 
-import java.awt.Color;
+import com.renaud.picross.model.Couleur;
 
 public class DistancePonderee implements DistanceResolver {
 
 	@Override
-	public double getdistance(Color a, Color b) {
-		double ta = a.getRed() + a.getGreen() + a.getBlue();
-		double tb = b.getRed() + b.getGreen() + b.getBlue();
-		double r = a.getRed() / ta;
-		r -= b.getRed() / tb;
+	public double getdistance(Couleur a, Couleur b) {
+		double ta = a.getR() + a.getG() + a.getB();
+		double tb = b.getR() + b.getG() + b.getB();
+		double r = a.getR() / ta;
+		r -= b.getR() / tb;
 		r *= r;
-		double g = a.getGreen() / ta;
-		g -= b.getGreen() / tb;
+		double g = a.getG() / ta;
+		g -= b.getG() / tb;
 		g *= g;
-		double bl = a.getBlue() / ta;
-		bl -= b.getBlue() / tb;
+		double bl = a.getB() / ta;
+		bl -= b.getB() / tb;
 		bl *= bl;
 
 		return r + g + bl;

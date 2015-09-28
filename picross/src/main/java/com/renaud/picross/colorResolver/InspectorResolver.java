@@ -1,11 +1,11 @@
 package com.renaud.picross.colorResolver;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.Picross;
 
 public class InspectorResolver implements ColorResolver {
@@ -22,10 +22,10 @@ public class InspectorResolver implements ColorResolver {
 		this.nbColor = nbColor;
 	}
 
-	private Map<Color, Integer> makeMap() {
-		Map<Color, Integer> map = new HashMap<Color, Integer>();
+	private Map<Couleur, Integer> makeMap() {
+		Map<Couleur, Integer> map = new HashMap<>();
 		for (int j = 0; j < (p.getLargeur() * p.getHauteur()); j++) {
-			Color c = p.getPixel(j % p.getLargeur(), j / p.getLargeur());
+			Couleur c = p.getPixel(j % p.getLargeur(), j / p.getLargeur());
 			if (!map.containsKey(c)) {
 				map.put(c, 1);
 			}
@@ -37,12 +37,12 @@ public class InspectorResolver implements ColorResolver {
 	}
 
 	public void resolve(Picross p) {
-		List<Color> colors = new ArrayList<>();
-		Map<Color, Integer> map = makeMap();
+		List<Couleur> colors = new ArrayList<>();
+		Map<Couleur, Integer> map = makeMap();
 		while (colors.size() < nbColor && map.size() > 0) {
 			int best = -1;
-			Color who = null;
-			for (Color c : map.keySet()) {
+			Couleur who = null;
+			for (Couleur c : map.keySet()) {
 				int count = contraste(c);
 				if (count > best) {
 					best = count;
@@ -56,17 +56,17 @@ public class InspectorResolver implements ColorResolver {
 		proxyResolver.resolve(p);
 	}
 
-	private int contraste(Color c) {
+	private int contraste(Couleur c) {
 		int ct = 0;
 		double pow = 1;
-		ct += Math.pow(Math.round(c.getRed() - c.getGreen()), pow);
-		ct += Math.pow(Math.round(c.getRed() - c.getBlue()), pow);
+		ct += Math.pow(Math.round(c.getR() - c.getG()), pow);
+		ct += Math.pow(Math.round(c.getR() - c.getB()), pow);
 
-		ct += Math.pow(Math.round(c.getGreen() - c.getRed()), pow);
-		ct += Math.pow(Math.round(c.getGreen() - c.getBlue()), pow);
+		ct += Math.pow(Math.round(c.getG() - c.getR()), pow);
+		ct += Math.pow(Math.round(c.getG() - c.getB()), pow);
 
-		ct += Math.pow(Math.round(c.getBlue() - c.getRed()), pow);
-		ct += Math.pow(Math.round(c.getBlue() - c.getGreen()), pow);
+		ct += Math.pow(Math.round(c.getB() - c.getR()), pow);
+		ct += Math.pow(Math.round(c.getB() - c.getG()), pow);
 
 		return ct;
 	}
