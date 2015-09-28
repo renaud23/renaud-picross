@@ -3,12 +3,19 @@ package com.renaud.picross.generator;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.PixelGrabber;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.renaud.picros.finalize.Finalizer;
 import com.renaud.picross.colorResolver.ColorResolver;
 import com.renaud.picross.colorResolver.DistanceSimple;
 import com.renaud.picross.colorResolver.ProxyResolver;
+import com.renaud.picross.model.Groupe;
 import com.renaud.picross.model.Picross;
 
 public class PicrossGeneratorImpl implements PicrossGenerator{
@@ -94,6 +101,43 @@ public class PicrossGeneratorImpl implements PicrossGenerator{
 
 		Color c = new Color((int) redTotal, (int) greenTotal, (int) blueTotal);
 		picross.setColor(c, xi, yi);
+	}
+
+	@Override
+	public void computeNumber() {
+		List<List<Groupe>> horizontaux = new ArrayList<>();
+		// lignes
+		for(int i=0;i<picross.getHauteur();i++){
+			Map<Color,Groupe> map = new HashMap<>();
+			int j = 0;
+			Color c;
+			while(j < (picross.getLargeur())){
+				c = picross.getPixel(j, i);
+	
+				Groupe gr = null;
+				if(!map.keySet().contains(c)){
+					gr = new Groupe();
+					gr.setCouleur(c);
+					gr.setContinu(true);
+					gr.setIndex(i);
+					map.put(c, gr);
+					
+				} else {
+					gr = map.get(c);
+					map.get(c).setContinu(false);	
+				}
+				
+				
+				
+				
+				j++;
+			}
+			for(Color g : map.keySet()){
+				System.out.println(map.get(g));
+			}
+			System.out.println("$$$$$$$$$$");
+		}// for
+		
 	}
 
 }

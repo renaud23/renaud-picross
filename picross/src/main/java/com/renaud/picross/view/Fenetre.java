@@ -122,12 +122,10 @@ public class Fenetre implements Iterable<IDrawable> {
 		SimpleImageLoader sld = new SimpleImageLoader();
 		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross/src/main/resources/ferrari.jpg");
 		Picross picross = new Picross();
-		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 8);
-		Finalizer finalizer = new ColorFilter(false,false,true);
-		f.addDrawable(addPicross(image, 10, 10, 45, 5, picross, resolver, finalizer));
+		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 3);
+		Finalizer finalizer = new LighterFinalizer(0.8);
+		f.addDrawable(addPicross(image, 10, 10, 10, 15, picross, resolver, finalizer));
 		f.start();
-
-		System.out.println(resolver.getNbColor());
 	}
 
 	private static PicrosseDrawer addPicross(Image image, int x, int y, int largeur, int pixelLargeur, Picross picross, ColorResolver colorResolver, Finalizer finalizer) {
@@ -135,6 +133,7 @@ public class Fenetre implements Iterable<IDrawable> {
 		generator.computeImage();
 		colorResolver.resolve(picross);
 		finalizer.finalize(picross);
+		generator.computeNumber();
 		return new PicrosseDrawer(picross, Color.black, x, y, largeur * pixelLargeur, picross.getHauteur() * pixelLargeur, pixelLargeur);
 	}
 

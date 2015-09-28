@@ -1,6 +1,7 @@
 package com.renaud.picross.model;
 
 import java.awt.Color;
+import java.util.List;
 
 import com.renaud.picross.generator.PicrossGenerator;
 
@@ -10,6 +11,9 @@ public class Picross{
 	private int largeur;
 	private int hauteur;
 	private Color[] colors;
+	private int nbColors;
+	
+
 	
 	public Picross() {}
 	
@@ -47,5 +51,7 @@ public class Picross{
 	public void setHauteur(int hauteur) {
 		this.hauteur = hauteur;
 	}
+	
+	
 	
 }
