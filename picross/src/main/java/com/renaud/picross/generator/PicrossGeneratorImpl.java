@@ -1,7 +1,9 @@
 package com.renaud.picross.generator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.Groupe;
@@ -79,39 +81,36 @@ public class PicrossGeneratorImpl implements PicrossGenerator {
 
 	@Override
 	public void computeNumber() {
-		List<List<Groupe>> horizontaux = new ArrayList<>();
-		// lignes
-		// for(int i=0;i<picross.getHauteur();i++){
-		// Map<Color,Groupe> map = new HashMap<>();
-		// int j = 0;
-		// Color c;
-		// while(j < (picross.getLargeur())){
-		// c = picross.getPixel(j, i);
-		//
-		// Groupe gr = null;
-		// if(!map.keySet().contains(c)){
-		// gr = new Groupe();
-		// gr.setCouleur(c);
-		// gr.setContinu(true);
-		// gr.setIndex(i);
-		// map.put(c, gr);
-		//
-		// } else {
-		// gr = map.get(c);
-		// map.get(c).setContinu(false);
-		// }
-		//
-		//
-		//
-		//
-		// j++;
-		// }
-		// for(Color g : map.keySet()){
-		// System.out.println(map.get(g));
-		// }
-		// System.out.println("$$$$$$$$$$");
-		// }// for
-
+		for(int i=0;i<picross.getHauteur();i++){
+			checkLigne(i);
+		}
+	}
+	
+	private void checkLigne(int i){
+		Map<Couleur, Groupe> map = new HashMap<>();
+		Groupe cur = null;Couleur next = null;
+		for(int j=0;j<picross.getLargeur();j++){
+			Couleur col = picross.getPixel(j, i);
+			if(map.containsKey(col)){
+				cur = map.get(col);
+			}else{
+				cur = new Groupe();
+				cur.setCouleur(col);
+				cur.setIndex(i);
+				
+				map.put(col, cur);
+			}
+			next = col;
+			cur.incremente();
+			while(col.equals(next) && j<(picross.getLargeur()-1)){
+				next = picross.getPixel(j + 1, i);
+				if(col.equals(next)){
+					j++;
+					cur.incremente();
+				}
+			}
+		}
+		System.out.println(map.values());
 	}
 
 }

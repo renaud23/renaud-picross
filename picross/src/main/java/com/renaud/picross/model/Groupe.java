@@ -1,9 +1,9 @@
 package com.renaud.picross.model;
 
-import java.awt.Color;
+
 
 public class Groupe {
-	private Color couleur;
+	private Couleur couleur;
 	private int taille;
 	boolean continu;
 	private int index;
@@ -21,11 +21,11 @@ public class Groupe {
 		taille++;
 	}
 
-	public Color getCouleur() {
+	public Couleur getCouleur() {
 		return couleur;
 	}
 
-	public void setCouleur(Color couleur) {
+	public void setCouleur(Couleur couleur) {
 		this.couleur = couleur;
 	}
 

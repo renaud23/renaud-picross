@@ -120,9 +120,9 @@ public class Fenetre implements Iterable<IDrawable> {
 		SimpleImageLoader sld = new SimpleImageLoader();
 		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross/src/main/resources/zelda.jpg");
 		Picross picross = new Picross();
-		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 6, 0.01);
+		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 4, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
-		f.addDrawable(addPicross(image, 10, 10, 40, 10, picross, resolver, finalizer));
+		f.addDrawable(addPicross(image, 10, 10, 5, 10, picross, resolver, finalizer));
 		f.start();
 
 		System.out.println(resolver.getNbColor());
