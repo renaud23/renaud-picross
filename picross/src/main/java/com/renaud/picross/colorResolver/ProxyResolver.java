@@ -1,6 +1,5 @@
 package com.renaud.picross.colorResolver;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,21 +37,21 @@ public class ProxyResolver implements ColorResolver {
 		model.add(new Couleur(100, 150, 150));
 		model.add(new Couleur(150, 100, 150));
 
-//		model.add(Color.black);
-//		model.add(Color.white);
-//
-//		model.add(Color.green);
-//		model.add(Color.blue);
-//		model.add(Color.red);
-//		model.add(Color.yellow);
-//		model.add(Color.orange);
-//		model.add(Color.pink);
-//		model.add(Color.magenta);
-//		model.add(Color.cyan);
-//
-//		model.add(Color.gray);
-//		model.add(Color.lightGray);
-//		model.add(Color.darkGray);
+		// model.add(Color.black);
+		// model.add(Color.white);
+		//
+		// model.add(Color.green);
+		// model.add(Color.blue);
+		// model.add(Color.red);
+		// model.add(Color.yellow);
+		// model.add(Color.orange);
+		// model.add(Color.pink);
+		// model.add(Color.magenta);
+		// model.add(Color.cyan);
+		//
+		// model.add(Color.gray);
+		// model.add(Color.lightGray);
+		// model.add(Color.darkGray);
 
 	}
 

@@ -1,6 +1,5 @@
 package com.renaud.picross.colorResolver;
 
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -30,7 +29,6 @@ public class SimpleResolver implements ColorResolver {
 
 	public void resolve(Picross p) {
 		Map<Couleur, Integer> map = this.makeMap();
-		int pos = 0;
 		Random r = new Random();
 		while (map.keySet().size() > nbColor) {
 			Couleur cdt = (Couleur) map.keySet().toArray()[r.nextInt(map.keySet().size())];

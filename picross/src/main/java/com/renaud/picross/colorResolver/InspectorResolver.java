@@ -12,14 +12,14 @@ public class InspectorResolver implements ColorResolver {
 
 	private int nbColor = 5;
 	private Picross p;
-	private DistanceResolver distance;
 	private ProxyResolver proxyResolver;
+	private DistanceResolver distance;
 
 	public InspectorResolver(Picross p, DistanceResolver distance, int nbColor) {
 		this.p = p;
-		this.distance = distance;
 		this.proxyResolver = new ProxyResolver(distance);
 		this.nbColor = nbColor;
+		this.distance = distance;
 	}
 
 	private Map<Couleur, Integer> makeMap() {
@@ -52,6 +52,7 @@ public class InspectorResolver implements ColorResolver {
 			colors.add(who);
 			map.remove(who);
 		}
+		this.reduce(colors);
 		proxyResolver.setModel(colors);
 		proxyResolver.resolve(p);
 	}
@@ -76,4 +77,18 @@ public class InspectorResolver implements ColorResolver {
 		return proxyResolver.getNbColor();
 	}
 
+	private void reduce(List<Couleur> couleurs) {
+		List<Couleur> clone = new ArrayList<>(couleurs);
+		for (Couleur c : clone) {
+			List<Couleur> other = new ArrayList<>(couleurs);
+			other.remove(c);
+			for (Couleur rival : other) {
+				double dist = this.distance.getdistance(c, rival) / 195075;
+				if (dist < 0.00001) {
+					System.out.println(rival + " vs " + c);
+					couleurs.remove(rival);
+				}
+			}
+		}
+	}
 }

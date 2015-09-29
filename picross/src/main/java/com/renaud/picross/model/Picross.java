@@ -1,36 +1,30 @@
 package com.renaud.picross.model;
 
-
-
-
-public class Picross{
-
+public class Picross {
 
 	private int largeur;
 	private int hauteur;
 	private Couleur[] colors;
 	private int nbColors;
-	
 
-	
 	public Picross() {}
-	
+
 	public Picross(int largeur, int hauteur) {
 		this.largeur = largeur;
 		this.hauteur = hauteur;
-		
+
 		this.colors = new Couleur[this.largeur * this.hauteur];
 	}
-	
-	public void validate(){
+
+	public void validate() {
 		this.colors = new Couleur[this.largeur * this.hauteur];
 	}
-	
-	public void setColor(Couleur c, int x,int y){
+
+	public void setColor(Couleur c, int x, int y) {
 		colors[x + y * largeur] = c;
 	}
-	
-	public Couleur getPixel(int x,int y){
+
+	public Couleur getPixel(int x, int y) {
 		return colors[x + y * largeur];
 	}
 
@@ -38,10 +32,26 @@ public class Picross{
 		return largeur;
 	}
 
+	public Couleur[] getColors() {
+		return colors;
+	}
+
+	public void setColors(Couleur[] colors) {
+		this.colors = colors;
+	}
+
+	public int getNbColors() {
+		return nbColors;
+	}
+
+	public void setNbColors(int nbColors) {
+		this.nbColors = nbColors;
+	}
+
 	public int getHauteur() {
 		return hauteur;
 	}
-	
+
 	public void setLargeur(int largeur) {
 		this.largeur = largeur;
 	}
@@ -49,7 +59,5 @@ public class Picross{
 	public void setHauteur(int hauteur) {
 		this.hauteur = hauteur;
 	}
-	
-	
-	
+
 }

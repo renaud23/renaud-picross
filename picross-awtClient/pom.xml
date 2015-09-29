@@ -3,13 +3,6 @@
   <groupId>com.renaud.picross</groupId>
   <artifactId>awtClient</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <dependencies>
-  	<dependency>
-  		<groupId>com.renaud</groupId>
-  		<artifactId>picross</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
   
   	<build>
 		<plugins>
@@ -24,4 +17,11 @@
 			</plugin>
 		</plugins>
 	</build>
+  	<dependencies>
+  		<dependency>
+  			<groupId>com.renaud</groupId>
+  			<artifactId>picross-core</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  	</dependencies>
 </project>

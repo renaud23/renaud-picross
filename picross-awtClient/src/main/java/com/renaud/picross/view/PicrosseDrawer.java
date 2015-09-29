@@ -39,7 +39,11 @@ public class PicrosseDrawer implements IDrawable, DrawOperationAware {
 
 					int xi = j * pixelSize;
 					int yi = i * pixelSize;
-					buffer.fillRect(new Color(picross.getPixel(j, i).getRgba()), xi, yi, pixelSize - 1, pixelSize - 1, 1.0f);
+					buffer.fillRect(
+						new Color(
+							picross.getPixel(j, i).getR(),
+							picross.getPixel(j, i).getG(),
+							picross.getPixel(j, i).getB()), xi, yi, pixelSize - 1, pixelSize - 1, 1.0f);
 				}
 			}
 			filled = true;
