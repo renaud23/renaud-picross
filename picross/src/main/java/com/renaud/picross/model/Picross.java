@@ -14,6 +14,7 @@ public class Picross {
 		this.hauteur = hauteur;
 
 		this.colors = new Couleur[this.largeur * this.hauteur];
+		for(int i=0;i<this.largeur * this.hauteur;i++)this.colors[i] = Couleur.NOIR;
 	}
 
 	public void validate() {

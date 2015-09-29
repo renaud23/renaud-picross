@@ -2,6 +2,9 @@ package com.renaud.picross.model;
 
 public class Couleur {
 
+	public final static Couleur NOIR = new Couleur(0, 0, 0);
+	
+	
 	private int r;
 	private int g;
 	private int b;

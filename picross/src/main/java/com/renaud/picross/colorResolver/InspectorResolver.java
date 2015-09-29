@@ -11,21 +11,30 @@ import com.renaud.picross.model.Picross;
 public class InspectorResolver implements ColorResolver {
 
 	private int nbColor = 5;
-	private Picross p;
+	private Picross picross;
 	private ProxyResolver proxyResolver;
 	private DistanceResolver distance;
+	private double sensibilite = 0.01;
 
 	public InspectorResolver(Picross p, DistanceResolver distance, int nbColor) {
-		this.p = p;
+		this.picross = p;
 		this.proxyResolver = new ProxyResolver(distance);
 		this.nbColor = nbColor;
 		this.distance = distance;
 	}
+	
+	public InspectorResolver(Picross p, DistanceResolver distance, int nbColor, double sensibilite) {
+		this.picross = p;
+		this.proxyResolver = new ProxyResolver(distance);
+		this.nbColor = nbColor;
+		this.distance = distance;
+		this.sensibilite = sensibilite;
+	}
 
 	private Map<Couleur, Integer> makeMap() {
 		Map<Couleur, Integer> map = new HashMap<>();
-		for (int j = 0; j < (p.getLargeur() * p.getHauteur()); j++) {
-			Couleur c = p.getPixel(j % p.getLargeur(), j / p.getLargeur());
+		for (int j = 0; j < (picross.getLargeur() * picross.getHauteur()); j++) {
+			Couleur c = picross.getPixel(j % picross.getLargeur(), j / picross.getLargeur());
 			if (!map.containsKey(c)) {
 				map.put(c, 1);
 			}
@@ -41,7 +50,7 @@ public class InspectorResolver implements ColorResolver {
 		Map<Couleur, Integer> map = makeMap();
 		while (colors.size() < nbColor && map.size() > 0) {
 			int best = -1;
-			Couleur who = null;
+			Couleur who = Couleur.NOIR;
 			for (Couleur c : map.keySet()) {
 				int count = contraste(c);
 				if (count > best) {
@@ -52,7 +61,7 @@ public class InspectorResolver implements ColorResolver {
 			colors.add(who);
 			map.remove(who);
 		}
-		this.reduce(colors);
+		this.reduce(colors, this.sensibilite);
 		proxyResolver.setModel(colors);
 		proxyResolver.resolve(p);
 	}
@@ -77,16 +86,17 @@ public class InspectorResolver implements ColorResolver {
 		return proxyResolver.getNbColor();
 	}
 
-	private void reduce(List<Couleur> couleurs) {
+	private void reduce(List<Couleur> couleurs, double sensibilite) {
 		List<Couleur> clone = new ArrayList<>(couleurs);
 		for (Couleur c : clone) {
 			List<Couleur> other = new ArrayList<>(couleurs);
 			other.remove(c);
 			for (Couleur rival : other) {
-				double dist = this.distance.getdistance(c, rival) / 195075;
-				if (dist < 0.00001) {
-					System.out.println(rival + " vs " + c);
-					couleurs.remove(rival);
+				if(couleurs.contains(c)){
+					double dist = this.distance.getdistance(c, rival) / 195075;
+					if (dist < sensibilite) {
+						couleurs.remove(rival);
+					}
 				}
 			}
 		}

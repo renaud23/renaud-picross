@@ -67,7 +67,7 @@ public class ProxyResolver implements ColorResolver {
 
 		for (int j = 0; j < (p.getLargeur() * p.getHauteur()); j++) {
 			double normal = 9999999;
-			Couleur who = null;
+			Couleur who = Couleur.NOIR;
 			Couleur c = p.getPixel(j % p.getLargeur(), j / p.getLargeur());
 			for (Couleur m : model) {
 				if (!c.equals(m)) {
