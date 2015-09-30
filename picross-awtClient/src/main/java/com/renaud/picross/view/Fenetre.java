@@ -20,7 +20,7 @@ import com.renaud.picross.colorResolver.DistanceSimple;
 import com.renaud.picross.colorResolver.InspectorResolver;
 import com.renaud.picross.generator.PicrossGeneratorImpl;
 import com.renaud.picross.model.Picross;
-import com.renaud.picross.tools.SimpleImageLoader;
+import com.renaud.picross.view.tools.SimpleImageLoader;
 
 public class Fenetre implements Iterable<IDrawable> {
 
@@ -118,7 +118,7 @@ public class Fenetre implements Iterable<IDrawable> {
 	public final static void main(String[] args) {
 		Fenetre f = new Fenetre(800, 600);
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross/src/main/resources/zelda.jpg");
+		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross-awtClient/src/main/resources/ferrari.jpg");
 		Picross picross = new Picross();
 		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 4, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
@@ -132,7 +132,7 @@ public class Fenetre implements Iterable<IDrawable> {
 		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, largeur);
 		generator.computeImage();
 		colorResolver.resolve(picross);
-//		 finalizer.finalize(picross);
+		finalizer.finalize(picross);
 		generator.computeNumber();
 		return new PicrosseDrawer(picross, Color.black, x, y, largeur * pixelLargeur, picross.getHauteur() * pixelLargeur, pixelLargeur);
 	}

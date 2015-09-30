@@ -1,11 +1,9 @@
 package com.renaud.picross.colorResolver;
 
-import java.awt.Color;
-
 import com.renaud.picross.model.Couleur;
 
-public class DistanceMixte implements DistanceResolver{
-	
+public class DistanceMixte implements DistanceResolver {
+
 	private DistanceResolver simple = new DistanceSimple();
 	private DistanceResolver ponderee = new DistancePonderee();
 
