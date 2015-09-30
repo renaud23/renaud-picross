@@ -118,7 +118,7 @@ public class Fenetre implements Iterable<IDrawable> {
 	public final static void main(String[] args) {
 		Fenetre f = new Fenetre(800, 600);
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage("C:/Users/Renaud/git/renaud-picross/picross-awtClient/src/main/resources/ferrari.jpg");
+		Image image = sld.getImage( System.getProperty("user.dir") + "/src/main/resources/ferrari.jpg");
 		Picross picross = new Picross();
 		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 4, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
