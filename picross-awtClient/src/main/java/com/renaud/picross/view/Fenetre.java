@@ -30,11 +30,11 @@ public class Fenetre implements Iterable<IDrawable> {
 		this.frame = new JFrame("Picross");
 		this.frame.setIgnoreRepaint(true);
 		this.frame.setVisible(true);
-		this.frame.setPreferredSize(new Dimension(largeur, hauteur));
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 
 		this.buffer = new CanvasHwdBuffer(largeur, hauteur);
+		this.buffer.setPreferredSize(new Dimension(largeur, hauteur));
 		this.frame.add((Component) this.buffer);
 		this.buffer.createStrategy();
 
@@ -43,7 +43,7 @@ public class Fenetre implements Iterable<IDrawable> {
 
 		this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.frame.setResizable(false);
+		this.frame.setResizable(true);
 		this.timer = new Timer();
 	}
 

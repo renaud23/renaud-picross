@@ -1,5 +1,7 @@
 package com.renaud.picross.game;
 
+import com.renaud.picross.view.controller.Surface;
+
 
 
 public interface IController extends Comparable<IController>{

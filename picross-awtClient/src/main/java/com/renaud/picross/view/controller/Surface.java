@@ -19,7 +19,7 @@ public class Surface {
 	}
 
 	public boolean isIn(int x, int y) {
-		return x > this.x && x < (this.x + largeur) && y > this.y && y < (this.y + this.hauteur);
+		return x >= this.x && x < (this.x + largeur) && y >= this.y && y < (this.y + this.hauteur);
 	}
 
 	public boolean intersect(Surface s) {

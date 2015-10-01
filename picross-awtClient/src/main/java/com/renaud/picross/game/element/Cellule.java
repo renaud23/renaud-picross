@@ -46,12 +46,13 @@ public class Cellule implements IController, IDrawable, DrawOperationAware {
 	public void draw() {
 
 		if (focused) {
-			this.drawer.fillRect(color, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur(), 0.3f);
-			this.drawer.drawRect(Color.white, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur());
+			this.drawer.fillRect(color, surface.getX()+ 1.0, surface.getY() + 1.0, surface.getLargeur() - 1.0, surface.getHauteur()-1.0, 0.3f);
+			this.drawer.drawRect(Color.white, surface.getX(), surface.getY(), surface.getLargeur()-1, surface.getHauteur()-1);
 		}
 		else {
-			this.drawer.fillRect(color, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur(), 1.0f);
 			this.drawer.drawRect(Color.black, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur());
+			this.drawer.fillRect(color, surface.getX()+ 1.0, surface.getY() + 1.0, surface.getLargeur() - 1.0, surface.getHauteur()-1.0, 1.0f);
+//			
 		}
 
 	}

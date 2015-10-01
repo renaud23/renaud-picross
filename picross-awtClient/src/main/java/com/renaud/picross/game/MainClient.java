@@ -18,7 +18,7 @@ public class MainClient {
 
 	public final static void main(String[] args) {
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/ferrari.jpg");
+		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/girl1.jpg");
 		Picross picross = new Picross();
 		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 5, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
