@@ -22,7 +22,7 @@ public class MainClient {
 		Picross picross = new Picross();
 		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 5, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
-		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 30);
+		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 50);
 		generator.computeImage();
 		resolver.resolve(picross);
 		finalizer.finalize(picross);
@@ -30,17 +30,18 @@ public class MainClient {
 
 		int largeur = 800;
 		int hauteur = 600;
-		Fenetre f = new Fenetre(largeur, hauteur);
+	
 		GameContext gx = new GameContext();
 		RootController controller = new RootController(largeur, hauteur);
-		f.getBuffer().addMouseListener(gx);
-		f.getBuffer().addMouseMotionListener(gx);
-
-		f.setSequence(gx);
 		GameSequence game = new GameSequence(controller);
 		gx.setSequence(game);
 		game.setPicross(picross);
 
+		
+		Fenetre f = new Fenetre(largeur, hauteur);
+		f.getBuffer().addMouseListener(gx);
+		f.getBuffer().addMouseMotionListener(gx);
+		f.setSequence(gx);
 		f.addDrawable(gx);
 		f.start();
 	}

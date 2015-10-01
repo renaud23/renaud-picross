@@ -27,13 +27,15 @@ public abstract class AbstractController implements IController {
 
 	private IController getCandidat() {
 		IController winner = null;
-		for (IController c : controllers) {
-			if (c.getSurface().isIn(mouseX, mouseY)) {
-				if (winner == null || c.compareTo(winner) > 0) {
-					winner = c;
+		
+			for (IController c : controllers) {
+				if (c.getSurface().isIn(mouseX, mouseY)) {
+					if (winner == null || c.compareTo(winner) > 0) {
+						winner = c;
+					}
 				}
 			}
-		}
+	
 		return winner;
 	}
 
