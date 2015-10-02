@@ -7,13 +7,17 @@ import com.renaud.picross.view.IDrawOperation;
 import com.renaud.picross.view.IDrawable;
 import com.renaud.picross.view.controller.IController;
 import com.renaud.picross.view.controller.Surface;
+import com.renaud.picross.view.tools.Observable;
+import com.renaud.picross.view.tools.ObservableComportement;
+import com.renaud.picross.view.tools.Observer;
 
-public class Cellule implements IController, IDrawable, DrawOperationAware {
+public class Cellule implements IController, IDrawable, DrawOperationAware, Observable {
 
 	private IDrawOperation drawer;
 	private Surface surface;
 	private Color color;
 	private boolean focused;
+	private Observable comportement = new ObservableComportement();
 
 	public Cellule(Color color, int x, int y, int largeur, int hauteur) {
 		this.surface = new Surface(x, y, largeur, hauteur);
@@ -81,6 +85,17 @@ public class Cellule implements IController, IDrawable, DrawOperationAware {
 	@Override
 	public Surface getSurface() {
 		return surface;
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		comportement.addObserver(o);
+	}
+
+	@Override
+	public void notifyAll_(String message, Object o) {
+		comportement.notifyAll_(message,o);
+		
 	}
 
 }
