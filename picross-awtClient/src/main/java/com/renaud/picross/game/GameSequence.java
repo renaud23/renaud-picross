@@ -97,6 +97,7 @@ public class GameSequence implements ISequence, Observer {
 
 	@Override
 	public void draw() {
+		this.op.clean();
 		this.chooser.draw();
 		for (Cellule c : cellules) {
 			c.draw();
@@ -129,7 +130,16 @@ public class GameSequence implements ISequence, Observer {
 	@Override
 	public void notify(String message, Object arg) {
 		if(message.equals(RectangularController.RV_CLICK)){
-			System.out.println(arg);
+			if(arg instanceof Cellule){
+				Cellule cel = (Cellule) arg;
+				Couleur coul = chooser.getCouleurChoice();
+				if(!coul.equals(Couleur.NULL)){
+					cel.setColor(new Color(coul.getRgba()));
+				}else{
+					cel.setColor(new Color(0,0,0,0));
+				}
+			}
+//			picross.getPixel(cel.getPicrossX(), cel.getPicrossY())
 		}else if(message.equals(RectangularController.RV_FOCUSED)){
 			if(arg instanceof Cellule){
 				focused = (Cellule) arg;

@@ -1,6 +1,7 @@
 package com.renaud.picross.game.modelView;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,7 +23,6 @@ public class ColorChooser implements IDrawable, DrawOperationAware, Observer {
 	private Surface surface;
 	private List<Couleur> couleurs;
 	private HashMap<Couleur, IController> controllers = new HashMap<>();
-	private Observable comportement = new ObservableComportement();
 	private IDrawOperation op;
 	private Couleur couleurChoice;
 	private RectangularController gomme;
@@ -30,6 +30,7 @@ public class ColorChooser implements IDrawable, DrawOperationAware, Observer {
 	public ColorChooser(Surface surface, List<Couleur> couleurs) {
 		this.couleurs = couleurs;
 		this.surface = surface;
+		this.couleurChoice = couleurs.get(0);
 		
 		double h = surface.getHauteur() - 1;
 		double l = (surface.getLargeur() - 2 ) / (couleurs.size() + 1);
@@ -42,8 +43,9 @@ public class ColorChooser implements IDrawable, DrawOperationAware, Observer {
 			i++;
 		}
 		gomme = new RectangularController(
-				new Surface((int) (surface.getX()+1 + l * couleurs.size()), surface.getY()+1, (int)l ,(int)h), Color.green);
+				new Surface((int) (surface.getX()+1 + l * couleurs.size()), surface.getY()+1, (int)l ,(int)h), Couleur.NULL);
 		gomme.addObserver(this);
+		controllers.put(Couleur.NULL, gomme);
 	}
 
 
@@ -63,17 +65,25 @@ public class ColorChooser implements IDrawable, DrawOperationAware, Observer {
 	@Override
 	public void draw() {
 		this.op.drawRect(Color.black, surface.getX(), surface.getY(), surface.getLargeur() - 1,  surface.getHauteur());
+		Surface sc = null;
 		for(Couleur c : controllers.keySet()){
 			Surface s = controllers.get(c).getSurface();
-			this.op.fillRect(new Color(c.getRgba()), s.getX(), s.getY(), s.getLargeur(), s.getHauteur(), 1.0f);
+			this.op.fillRect(c.equals(Couleur.NULL) ? new Color(0,0,0,0) : new Color(c.getRgba()), s.getX(), s.getY(), s.getLargeur(), s.getHauteur(), 1.0f);
+			if(c.equals(couleurChoice)){
+				sc = s;
+			}
 		}
+		
+		this.op.drawRect(Color.red, sc.getX(), sc.getY(), sc.getLargeur(), sc.getHauteur());
+		this.op.drawRect(Color.yellow, sc.getX()+1, sc.getY()+1, sc.getLargeur()-2, sc.getHauteur()-2);
+		this.op.drawRect(Color.red, sc.getX()+2, sc.getY()+2, sc.getLargeur()-4, sc.getHauteur()-4);
 	}
 
 
 	@Override
 	public void notify(String message, Object arg) {
 		if(message.equals(RectangularController.RV_CLICK)){
-			System.out.println(arg);
+			this.couleurChoice = (Couleur) arg;
 			
 		}
 		
@@ -93,7 +103,6 @@ public class ColorChooser implements IDrawable, DrawOperationAware, Observer {
 	public Collection<IController> getControllers(){
 		Collection<IController> c = new ArrayList<>();
 		c.addAll(this.controllers.values());
-		c.add(gomme);
 		return c;
 	}
 }

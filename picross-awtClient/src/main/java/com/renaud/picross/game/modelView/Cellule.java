@@ -63,4 +63,12 @@ public class Cellule implements IDrawable, DrawOperationAware {
 		return controller;
 	}
 
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 }
