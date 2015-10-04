@@ -20,9 +20,9 @@ public class MainClient {
 		SimpleImageLoader sld = new SimpleImageLoader();
 		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/girl1.jpg");
 		Picross picross = new Picross();
-		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 5, 0.01);
+		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 15, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
-		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 50);
+		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 30);
 		generator.computeImage();
 		resolver.resolve(picross);
 		finalizer.finalize(picross);

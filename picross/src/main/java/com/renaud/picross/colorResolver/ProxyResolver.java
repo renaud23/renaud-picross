@@ -64,7 +64,6 @@ public class ProxyResolver implements ColorResolver {
 	}
 
 	public void resolve(Picross p) {
-
 		for (int j = 0; j < (p.getLargeur() * p.getHauteur()); j++) {
 			double normal = 9999999;
 			Couleur who = Couleur.NOIR;
@@ -82,8 +81,8 @@ public class ProxyResolver implements ColorResolver {
 				}
 			}
 			p.setColor(who, j % p.getLargeur(), j / p.getLargeur());
-
 		}
+		p.setCouleurs(new ArrayList<>(resolved));
 	}
 
 	public int getNbColor() {

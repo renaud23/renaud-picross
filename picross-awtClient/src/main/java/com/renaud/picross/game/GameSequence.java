@@ -4,18 +4,25 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.renaud.picross.game.element.Cellule;
+import com.renaud.picross.game.modelView.Cellule;
+import com.renaud.picross.game.modelView.ColorChooser;
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.Picross;
 import com.renaud.picross.view.IDrawOperation;
 import com.renaud.picross.view.controller.IController;
+import com.renaud.picross.view.controller.RectangularController;
 import com.renaud.picross.view.controller.RootController;
+import com.renaud.picross.view.controller.Surface;
+import com.renaud.picross.view.tools.Observer;
 
-public class GameSequence implements ISequence {
-
+public class GameSequence implements ISequence, Observer {
+	
+	private IDrawOperation op;
 	private RootController controller;
 	private Picross picross;
 	private List<Cellule> cellules = new ArrayList<>();
+	private Cellule focused;
+	private ColorChooser chooser;
 
 	@Override
 	public void activate() {
@@ -24,14 +31,14 @@ public class GameSequence implements ISequence {
 
 	public GameSequence(RootController controller) {
 		this.controller = controller;
-
 	}
 
 	private void prepare() {
 		double marge = 10.0;
 		double panelHau = 30;
+		double colorChooserHau = 100;
 		double lar = controller.getSurface().getLargeur() - marge * 2.0;
-		double hau = controller.getSurface().getHauteur() - marge * 2.0;
+		double hau = controller.getSurface().getHauteur() - marge * 2.0 - colorChooserHau;
 		
 		double min = Math.min(lar, hau);
 		double max = Math.max(lar, hau);
@@ -44,20 +51,25 @@ public class GameSequence implements ISequence {
 			ref2 =  (max / picross.getLargeur());
 		}
 		
-		
-		
 		int celSize = (int) ref1;//(int) Math.min(ref1, ref2);
 		
 	
 		for (int i = 0; i < picross.getHauteur(); i++) {
 			for (int j = 0; j < picross.getLargeur(); j++) {
 				Couleur c = picross.getPixel(j, i);
-				Color co = new Color(c.getRgba());
-				Cellule cel = new Cellule(co,(int)marge + j * celSize,(int)marge + i * celSize, celSize, celSize);
+				Color co = new Color(0,0,0,0);
+				Cellule cel = new Cellule(co,
+						(int)marge + j * celSize,
+						(int)(marge + i * celSize + colorChooserHau), celSize, celSize);
+				cel.setPicrossX(j);
+				cel.setPicrossY(i);
 				cellules.add(cel);
-				controller.addController(cel);
+				cel.getController().addObserver(this);
+				controller.addController(cel.getController());
 			}
 		}
+		this.chooser = new ColorChooser(new Surface(0, 0, controller.getSurface().getLargeur(), (int) colorChooserHau), picross.getCouleurs());
+		controller.addAllController(chooser.getControllers());
 	}
 
 	@Override
@@ -85,13 +97,20 @@ public class GameSequence implements ISequence {
 
 	@Override
 	public void draw() {
+		this.chooser.draw();
 		for (Cellule c : cellules) {
 			c.draw();
+		}
+		if(focused != null){
+			Surface s = focused.getController().getSurface();
+			op.drawRect(Color.red, s.getX(), s.getY(),  s.getLargeur(),  s.getHauteur());
 		}
 	}
 
 	@Override
 	public void setDrawOperation(IDrawOperation op) {
+		this.op = op;
+		this.chooser.setDrawOperation(op);
 		for (Cellule c : cellules) {
 			c.setDrawOperation(op);
 		}
@@ -105,5 +124,21 @@ public class GameSequence implements ISequence {
 	public void setPicross(Picross picross) {
 		this.picross = picross;
 		this.prepare();
+	}
+
+	@Override
+	public void notify(String message, Object arg) {
+		if(message.equals(RectangularController.RV_CLICK)){
+			System.out.println(arg);
+		}else if(message.equals(RectangularController.RV_FOCUSED)){
+			if(arg instanceof Cellule){
+				focused = (Cellule) arg;
+			}
+		}else if(message.equals(RectangularController.RV_UNFOCUSED)){
+			if(arg instanceof Cellule){
+				focused = null;
+			}
+		}
+		
 	}
 }

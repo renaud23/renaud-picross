@@ -1,6 +1,7 @@
 package com.renaud.picross.view.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractController implements IController {
@@ -19,6 +20,12 @@ public abstract class AbstractController implements IController {
 
 	public void addController(IController controller) {
 		controllers.add(controller);
+	}
+	
+	public void addAllController(Collection<IController> controllers) {
+		for(IController c : controllers){
+			this.addController(c);
+		}
 	}
 
 	public void removeController(IController controller) {
