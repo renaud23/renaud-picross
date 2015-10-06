@@ -2,15 +2,16 @@ package com.renaud.picross.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Picross {
 
 	private int largeur;
 	private int hauteur;
 	private Couleur[] pixels;
-	private int nbColors;
-	private List<Couleur> couleurs;
+	private Set<Couleur> couleurs;
 
 	private List<Collection<Groupe>> lignes = new ArrayList<>();
 	private List<Collection<Groupe>> colonnes = new ArrayList<>();
@@ -22,7 +23,7 @@ public class Picross {
 		this.hauteur = hauteur;
 
 		this.pixels = new Couleur[this.largeur * this.hauteur];
-		for (int i = 0; i < this.largeur * this.hauteur; i++){
+		for (int i = 0; i < this.largeur * this.hauteur; i++) {
 			this.pixels[i] = Couleur.NOIR;
 		}
 	}
@@ -67,12 +68,17 @@ public class Picross {
 		this.pixels = colors;
 	}
 
-	public int getNbColors() {
-		return nbColors;
+	public int getNbCouleur() {
+		return couleurs.size();
 	}
-
-	public void setNbColors(int nbColors) {
-		this.nbColors = nbColors;
+	
+	public void computeCouleur(){
+		this.couleurs = new HashSet<>();
+		for(Couleur c : pixels){
+			if(!couleurs.contains(c)){
+				couleurs.add(c);
+			}
+		}
 	}
 
 	public int getHauteur() {
@@ -86,11 +92,8 @@ public class Picross {
 	public void setHauteur(int hauteur) {
 		this.hauteur = hauteur;
 	}
-	public List<Couleur> getCouleurs() {
-		return couleurs;
-	}
 
-	public void setCouleurs(List<Couleur> couleurs) {
-		this.couleurs = couleurs;
+	public Set<Couleur> getCouleurs() {
+		return couleurs;
 	}
 }

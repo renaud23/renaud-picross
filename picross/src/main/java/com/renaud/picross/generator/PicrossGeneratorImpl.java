@@ -19,6 +19,7 @@ public class PicrossGeneratorImpl implements PicrossGenerator {
 	private int hauteur;
 
 	private PixelTable pixelTable;
+	
 
 	public PicrossGeneratorImpl(PixelTable pixelTable, Picross picross, int largeur) {
 		this.pixelTable = pixelTable;
@@ -56,7 +57,6 @@ public class PicrossGeneratorImpl implements PicrossGenerator {
 		int startX = xi * largeur;
 		for (int i = 0; i < hauteur; i++) {
 			if ((i + startY) < pixelTable.getHauteur()) {
-
 				for (int j = 0; j < largeur; j++) {
 					if ((j + startX) < pixelTable.getLargeur()) {
 						nbPixel++;
@@ -94,7 +94,7 @@ public class PicrossGeneratorImpl implements PicrossGenerator {
 			for (int i = 0; i < picross.getHauteur(); i++) {
 				couleurs.add(picross.getPixel(j, i));
 			}
-			picross.setLigne(j, checkGroupe(couleurs, j));
+			picross.setColonne(j, checkGroupe(couleurs, j));
 		}
 	}
 
@@ -107,8 +107,7 @@ public class PicrossGeneratorImpl implements PicrossGenerator {
 			if (map.containsKey(col)) {
 				cur = map.get(col);
 				cur.setContinu(false);
-			}
-			else {
+			} else {
 				cur = new Groupe();
 				cur.setCouleur(col);
 				cur.setIndex(index);

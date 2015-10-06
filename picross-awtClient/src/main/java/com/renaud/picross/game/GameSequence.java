@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.renaud.picross.game.modelView.Cellule;
 import com.renaud.picross.game.modelView.ColorChooser;
+import com.renaud.picross.game.modelView.Compteur;
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.Picross;
 import com.renaud.picross.view.IDrawOperation;
@@ -16,13 +17,16 @@ import com.renaud.picross.view.controller.Surface;
 import com.renaud.picross.view.tools.Observer;
 
 public class GameSequence implements ISequence, Observer {
-	
+
 	private IDrawOperation op;
 	private RootController controller;
 	private Picross picross;
 	private List<Cellule> cellules = new ArrayList<>();
 	private Cellule focused;
 	private ColorChooser chooser;
+
+	private List<Compteur> compteurLigne = new ArrayList<>();
+	private List<Compteur> compteurColonne = new ArrayList<>();
 
 	@Override
 	public void activate() {
@@ -37,30 +41,42 @@ public class GameSequence implements ISequence, Observer {
 		double marge = 10.0;
 		double panelHau = 30;
 		double colorChooserHau = 100;
-		double lar = controller.getSurface().getLargeur() - marge * 2.0;
-		double hau = controller.getSurface().getHauteur() - marge * 2.0 - colorChooserHau;
-		
+		double compteurTail = 100;
+		double lar = controller.getSurface().getLargeur() - marge * 2.0 - compteurTail;
+		double hau = controller.getSurface().getHauteur() - marge * 2.0 - colorChooserHau - compteurTail;
+
 		double min = Math.min(lar, hau);
 		double max = Math.max(lar, hau);
 		double ref1, ref2;
-		if(controller.getSurface().getLargeur() < controller.getSurface().getHauteur()){
-			ref1 =  (min / picross.getLargeur());
-			ref2 =  (max / picross.getHauteur());
-		}else{
-			ref1 =  (min / picross.getHauteur());
-			ref2 =  (max / picross.getLargeur());
+		if (controller.getSurface().getLargeur() < controller.getSurface().getHauteur()) {
+			ref1 = (min / picross.getLargeur());
+			ref2 = (max / picross.getHauteur());
 		}
-		
-		int celSize = (int) ref1;//(int) Math.min(ref1, ref2);
-		
-	
+		else {
+			ref1 = (min / picross.getHauteur());
+			ref2 = (max / picross.getLargeur());
+		}
+
+		int celSize = (int) ref1;// (int) Math.min(ref1, ref2);
+		double xi, yi;
 		for (int i = 0; i < picross.getHauteur(); i++) {
+			yi = marge + i * celSize + colorChooserHau + compteurTail;
+			compteurLigne.add(i,
+				new Compteur(new Surface((int) marge, (int) yi, (int) compteurTail, celSize),
+					picross.getLigne(i), true, picross.getNbCouleur()));
+
 			for (int j = 0; j < picross.getLargeur(); j++) {
+				xi = marge + j * celSize + compteurTail;
+				compteurColonne.add(j,
+					new Compteur(new Surface((int) xi, (int) (marge + colorChooserHau), celSize, (int) compteurTail),
+						picross.getColonne(j), false, picross.getNbCouleur()));
+
 				Couleur c = picross.getPixel(j, i);
-				Color co = new Color(0,0,0,0);
+				Color co = new Color(0, 0, 0, 0);
 				Cellule cel = new Cellule(co,
-						(int)marge + j * celSize,
-						(int)(marge + i * celSize + colorChooserHau), celSize, celSize);
+					(int) xi,
+					(int) yi
+					, celSize, celSize);
 				cel.setPicrossX(j);
 				cel.setPicrossY(i);
 				cellules.add(cel);
@@ -102,10 +118,18 @@ public class GameSequence implements ISequence, Observer {
 		for (Cellule c : cellules) {
 			c.draw();
 		}
-		if(focused != null){
-			Surface s = focused.getController().getSurface();
-			op.drawRect(Color.red, s.getX(), s.getY(),  s.getLargeur(),  s.getHauteur());
+		for (Compteur cmp : compteurLigne) {
+			cmp.draw();
 		}
+		for (Compteur cmp : compteurColonne) {
+			cmp.draw();
+		}
+
+		if (focused != null) {
+			Surface s = focused.getController().getSurface();
+			op.drawRect(Color.red, s.getX(), s.getY(), s.getLargeur(), s.getHauteur());
+		}
+
 	}
 
 	@Override
@@ -114,6 +138,12 @@ public class GameSequence implements ISequence, Observer {
 		this.chooser.setDrawOperation(op);
 		for (Cellule c : cellules) {
 			c.setDrawOperation(op);
+		}
+		for (Compteur cmp : compteurLigne) {
+			cmp.setDrawOperation(op);
+		}
+		for (Compteur cmp : compteurColonne) {
+			cmp.setDrawOperation(op);
 		}
 	}
 
@@ -129,26 +159,49 @@ public class GameSequence implements ISequence, Observer {
 
 	@Override
 	public void notify(String message, Object arg) {
-		if(message.equals(RectangularController.RV_CLICK)){
-			if(arg instanceof Cellule){
+		if (message.equals(RectangularController.RV_CLICK)) {
+			if (arg instanceof Cellule) {
 				Cellule cel = (Cellule) arg;
-				Couleur coul = chooser.getCouleurChoice();
-				if(!coul.equals(Couleur.NULL)){
-					cel.setColor(new Color(coul.getRgba()));
-				}else{
-					cel.setColor(new Color(0,0,0,0));
-				}
-			}
-//			picross.getPixel(cel.getPicrossX(), cel.getPicrossY())
-		}else if(message.equals(RectangularController.RV_FOCUSED)){
-			if(arg instanceof Cellule){
-				focused = (Cellule) arg;
-			}
-		}else if(message.equals(RectangularController.RV_UNFOCUSED)){
-			if(arg instanceof Cellule){
-				focused = null;
+				this.checkColor(cel);
 			}
 		}
-		
+		else
+			if (message.equals(RectangularController.RV_FOCUSED)) {
+				if (arg instanceof Cellule) {
+					focused = (Cellule) arg;
+				}
+			}
+			else
+				if (message.equals(RectangularController.RV_UNFOCUSED)) {
+					if (arg instanceof Cellule) {
+						focused = null;
+					}
+				}
+				else
+					if (message.equals(RectangularController.RV_DRAGGUED)) {
+						if (arg instanceof Cellule) {
+							this.checkColor((Cellule) arg);
+						}
+					}
+
+	}
+
+	private void checkColor(Cellule cel) {
+		Couleur coul = chooser.getCouleurChoice();
+		if (!coul.equals(Couleur.NULL)) {
+			if (cel.getColor().getAlpha() == 0) {
+				cel.setColor(new Color(coul.getRgba()));
+				this.compteurColonne.get(cel.getPicrossX()).decremente(coul);
+				this.compteurLigne.get(cel.getPicrossY()).decremente(coul);
+			}
+		}
+		else {
+			if(cel.getColor().getAlpha() != 0) {
+				Couleur r = new Couleur(cel.getColor().getRed(), cel.getColor().getGreen(), cel.getColor().getBlue());
+				this.compteurColonne.get(cel.getPicrossX()).incremente(r);
+				this.compteurLigne.get(cel.getPicrossY()).incremente(r);
+			}
+			cel.setColor(new Color(0, 0, 0, 0));
+		}
 	}
 }

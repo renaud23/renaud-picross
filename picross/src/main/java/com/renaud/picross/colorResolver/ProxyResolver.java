@@ -12,7 +12,6 @@ public class ProxyResolver implements ColorResolver {
 
 	private List<Couleur> model = new ArrayList<>();
 	private DistanceResolver distance;
-	private Set<Couleur> resolved = new HashSet<>();
 
 	public ProxyResolver(DistanceResolver distance) {
 		this.distance = distance;
@@ -74,18 +73,12 @@ public class ProxyResolver implements ColorResolver {
 					if (nor < normal) {
 						who = m;
 						normal = nor;
-						if (!resolved.contains(who)) {
-							resolved.add(who);
-						}
 					}
 				}
 			}
 			p.setColor(who, j % p.getLargeur(), j / p.getLargeur());
 		}
-		p.setCouleurs(new ArrayList<>(resolved));
 	}
 
-	public int getNbColor() {
-		return resolved.size();
-	}
+
 }

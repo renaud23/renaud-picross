@@ -26,14 +26,16 @@ public interface IDrawOperation {
 	void drawImage(Image image, double x, double y, double xRotation, double yRotation, double theta, double scale, float alpha, Composite composite);
 
 	void drawChar(String ch, int x, int y);
-	
-	void drawLine(Color color, int x1, int y1, int x2,int y2,float alpha);
-	
+
+	public void drawChar(String ch, int x, int y, int size);
+
+	void drawLine(Color color, int x1, int y1, int x2, int y2, float alpha);
+
 	void fillPolygone(Color color, int[] x, int[] y, float alpha);
-	
+
 	void drawPolygone(Color color, int[] x, int[] y, float alpha);
-	
+
 	void drawPolygone(int[] x, int[] y, BufferedImage img);
-	
+
 	void transparentClean();
 }

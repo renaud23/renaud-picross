@@ -20,6 +20,10 @@ public class Groupe {
 	public void incremente(){
 		taille++;
 	}
+	
+	public void decremente(){
+		taille--;
+	}
 
 	public Couleur getCouleur() {
 		return couleur;

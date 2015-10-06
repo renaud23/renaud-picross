@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.view.DrawOperationAware;
@@ -21,16 +22,16 @@ import com.renaud.picross.view.tools.Observer;
 public class ColorChooser implements IDrawable, DrawOperationAware, Observer {
 	
 	private Surface surface;
-	private List<Couleur> couleurs;
+	private Set<Couleur> couleurs;
 	private HashMap<Couleur, IController> controllers = new HashMap<>();
 	private IDrawOperation op;
 	private Couleur couleurChoice;
 	private RectangularController gomme;
 
-	public ColorChooser(Surface surface, List<Couleur> couleurs) {
+	public ColorChooser(Surface surface, Set<Couleur> couleurs) {
 		this.couleurs = couleurs;
 		this.surface = surface;
-		this.couleurChoice = couleurs.get(0);
+		this.couleurChoice = couleurs.iterator().next();
 		
 		double h = surface.getHauteur() - 1;
 		double l = (surface.getLargeur() - 2 ) / (couleurs.size() + 1);

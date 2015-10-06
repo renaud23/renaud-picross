@@ -6,5 +6,4 @@ public interface ColorResolver {
 
 	public void resolve(Picross p);
 
-	public int getNbColor();
 }

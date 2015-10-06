@@ -58,7 +58,9 @@ public class GameContext implements ISequence, MouseMotionListener, MouseListene
 	/* controller */
 
 	@Override
-	public void mouseDragged(MouseEvent e) {}
+	public void mouseDragged(MouseEvent e) {
+		this.sequence.getController().mouseDragged(e.getX(), e.getY());
+	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
@@ -66,15 +68,14 @@ public class GameContext implements ISequence, MouseMotionListener, MouseListene
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			this.sequence.getController().mouseLeftClick(e.getX(), e.getY());
 		}
-
 	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {}

@@ -81,11 +81,6 @@ public class InspectorResolver implements ColorResolver {
 		return ct;
 	}
 
-	@Override
-	public int getNbColor() {
-		return proxyResolver.getNbColor();
-	}
-
 	private void reduce(List<Couleur> couleurs, double sensibilite) {
 		List<Couleur> clone = new ArrayList<>(couleurs);
 		for (Couleur c : clone) {

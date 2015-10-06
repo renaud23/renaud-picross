@@ -20,7 +20,11 @@ public class NullController implements IController {
 	public void mouseLeftClick(int x, int y) {}
 
 	@Override
+	public void mouseDragged(int x, int y) {}
+
+	@Override
 	public Surface getSurface() {
 		return Surface.SURFACE_VIDE;
 	}
+
 }

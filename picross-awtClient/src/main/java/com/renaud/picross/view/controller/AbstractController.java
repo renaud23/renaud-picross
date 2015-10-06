@@ -21,9 +21,9 @@ public abstract class AbstractController implements IController {
 	public void addController(IController controller) {
 		controllers.add(controller);
 	}
-	
+
 	public void addAllController(Collection<IController> controllers) {
-		for(IController c : controllers){
+		for (IController c : controllers) {
 			this.addController(c);
 		}
 	}
@@ -34,15 +34,15 @@ public abstract class AbstractController implements IController {
 
 	private IController getCandidat() {
 		IController winner = null;
-		
-			for (IController c : controllers) {
-				if (c.getSurface().isIn(mouseX, mouseY)) {
-					if (winner == null || c.compareTo(winner) > 0) {
-						winner = c;
-					}
+
+		for (IController c : controllers) {
+			if (c.getSurface().isIn(mouseX, mouseY)) {
+				if (winner == null || c.compareTo(winner) > 0) {
+					winner = c;
 				}
 			}
-	
+		}
+
 		return winner;
 	}
 
@@ -57,6 +57,33 @@ public abstract class AbstractController implements IController {
 	public int compareTo(IController o) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void mouseDragged(int x, int y) {
+		checkPosition(x, y);
+		IController candidat = this.getCandidat();
+		if (candidat != null) {
+			if (current == null) {
+				current = candidat;
+				candidat.mouseEntered(mouseX, mouseY);
+			}
+			else
+				if (current != candidat) {
+					current.mouseExited(mouseX, mouseY);
+					candidat.mouseEntered(mouseX, mouseY);
+					current = candidat;
+				}
+				else {
+					candidat.mouseDragged(mouseX, mouseY);
+				}
+		}
+		else {
+			if (current != null) {
+				current.mouseExited(mouseX, mouseY);
+				current = null;
+			}
+		}
 	}
 
 	@Override

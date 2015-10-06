@@ -1,5 +1,6 @@
 package com.renaud.picross.game;
 
+import java.awt.Color;
 import java.awt.Image;
 
 import com.renaud.picros.finalize.Finalizer;
@@ -11,6 +12,7 @@ import com.renaud.picross.generator.PicrossGeneratorImpl;
 import com.renaud.picross.model.Picross;
 import com.renaud.picross.view.AWTPixelReader;
 import com.renaud.picross.view.Fenetre;
+import com.renaud.picross.view.PicrosseDrawer;
 import com.renaud.picross.view.controller.RootController;
 import com.renaud.picross.view.tools.SimpleImageLoader;
 
@@ -20,29 +22,33 @@ public class MainClient {
 		SimpleImageLoader sld = new SimpleImageLoader();
 		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/ferrari.jpg");
 		Picross picross = new Picross();
-		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 15, 0.01);
+		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 15, 0.1);
 		Finalizer finalizer = new LighterFinalizer(0.4);
-		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 30);
+		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 20);
 		generator.computeImage();
 		resolver.resolve(picross);
 		finalizer.finalize(picross);
 		generator.computeNumber();
+		picross.computeCouleur();
 
 		int largeur = 800;
 		int hauteur = 600;
-	
+
 		GameContext gx = new GameContext();
 		RootController controller = new RootController(largeur, hauteur);
 		GameSequence game = new GameSequence(controller);
 		gx.setSequence(game);
 		game.setPicross(picross);
 
-		
 		Fenetre f = new Fenetre(largeur, hauteur);
 		f.getBuffer().addMouseListener(gx);
 		f.getBuffer().addMouseMotionListener(gx);
 		f.setSequence(gx);
 		f.addDrawable(gx);
 		f.start();
+		
+		Fenetre f2 = new Fenetre(200, 200);
+		f2.addDrawable(new PicrosseDrawer(picross, Color.black, 10, 10, 5 * picross.getLargeur(), picross.getHauteur() * 5, 5));
+		f2.start();
 	}
 }

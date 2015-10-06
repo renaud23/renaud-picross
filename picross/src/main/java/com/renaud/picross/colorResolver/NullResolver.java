@@ -7,9 +7,4 @@ public class NullResolver implements ColorResolver {
 	@Override
 	public void resolve(Picross p) {}
 
-	@Override
-	public int getNbColor() {
-		return 0;
-	}
-
 }

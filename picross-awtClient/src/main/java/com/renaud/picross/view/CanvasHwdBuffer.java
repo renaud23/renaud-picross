@@ -180,6 +180,13 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 		gr.drawString(ch, x, y);
 	}
 
+	public void drawChar(String ch, int x, int y, int size) {
+		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
+		gr.setFont(new Font(Font.MONOSPACED, Font.PLAIN, size));
+
+		gr.drawString(ch, x, y);
+	}
+
 	public void fillPolygone(Color color, int[] x, int[] y, float alpha) {
 		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
 		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));

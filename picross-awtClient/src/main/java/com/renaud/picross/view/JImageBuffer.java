@@ -271,36 +271,41 @@ public class JImageBuffer implements IDrawOperation {
 	}
 
 	public void fillCircle(Color color, double x, double y, double rayon,
-			float alpha) {
+		float alpha) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void drawChar(String ch, int x, int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void drawLine(Color color, int x1, int y1, int x2, int y2,
-			float alpha) {
+		float alpha) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void fillPolygone(Color color, int[] x, int[] y, float alpha) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void drawPolygone(Color color, int[] x, int[] y, float alpha) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void drawPolygone(int[] x, int[] y, BufferedImage img) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
+	@Override
+	public void drawChar(String ch, int x, int y, int size) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

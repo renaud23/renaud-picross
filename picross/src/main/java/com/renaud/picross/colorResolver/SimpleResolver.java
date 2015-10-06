@@ -75,9 +75,5 @@ public class SimpleResolver implements ColorResolver {
 		}
 	}
 
-	@Override
-	public int getNbColor() {
-		return nbColor;
-	}
 
 }
