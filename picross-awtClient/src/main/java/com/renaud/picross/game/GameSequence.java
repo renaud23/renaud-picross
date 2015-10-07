@@ -71,7 +71,6 @@ public class GameSequence implements ISequence, Observer {
 					new Compteur(new Surface((int) xi, (int) (marge + colorChooserHau), celSize, (int) compteurTail),
 						picross.getColonne(j), false, picross.getNbCouleur()));
 
-				Couleur c = picross.getPixel(j, i);
 				Color co = new Color(0, 0, 0, 0);
 				Cellule cel = new Cellule(co,
 					(int) xi,
@@ -191,15 +190,15 @@ public class GameSequence implements ISequence, Observer {
 		if (!coul.equals(Couleur.NULL)) {
 			if (cel.getColor().getAlpha() == 0) {
 				cel.setColor(new Color(coul.getRgba()));
-				this.compteurColonne.get(cel.getPicrossX()).decremente(coul);
-				this.compteurLigne.get(cel.getPicrossY()).decremente(coul);
+				this.compteurColonne.get(cel.getPicrossX()).incremente(coul);
+				this.compteurLigne.get(cel.getPicrossY()).incremente(coul);
 			}
 		}
 		else {
 			if(cel.getColor().getAlpha() != 0) {
 				Couleur r = new Couleur(cel.getColor().getRed(), cel.getColor().getGreen(), cel.getColor().getBlue());
-				this.compteurColonne.get(cel.getPicrossX()).incremente(r);
-				this.compteurLigne.get(cel.getPicrossY()).incremente(r);
+				this.compteurColonne.get(cel.getPicrossX()).decremente(r);
+				this.compteurLigne.get(cel.getPicrossY()).decremente(r);
 			}
 			cel.setColor(new Color(0, 0, 0, 0));
 		}
