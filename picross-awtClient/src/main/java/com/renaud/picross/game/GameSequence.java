@@ -67,9 +67,11 @@ public class GameSequence implements ISequence, Observer {
 
 			for (int j = 0; j < picross.getLargeur(); j++) {
 				xi = marge + j * celSize + compteurTail;
-				compteurColonne.add(j,
+				if(i == 0){
+					compteurColonne.add(j,
 					new Compteur(new Surface((int) xi, (int) (marge + colorChooserHau), celSize, (int) compteurTail),
 						picross.getColonne(j), false, picross.getNbCouleur()));
+				}
 
 				Color co = new Color(0, 0, 0, 0);
 				Cellule cel = new Cellule(co,

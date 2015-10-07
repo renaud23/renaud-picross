@@ -28,10 +28,7 @@ public class Compteur implements IDrawable, DrawOperationAware {
 		this.surface = surface;
 		this.horizontal = horizontal;
 		this.nbCouleurs = nbCouleurs;
-		
-		for(Groupe g : groupes){
-			choix.put(g.getCouleur(), 0);
-		}
+	
 	}
 
 	public void refresh(Collection<Groupe> groupes) {
@@ -59,9 +56,9 @@ public class Compteur implements IDrawable, DrawOperationAware {
 		Integer how = choix.get(c);
 		if(how != null){
 			choix.put(c, how + 1);
+		}else{
+			choix.put(c, 1);
 		}
-		
-//		System.out.println(this + " " + horizontal + " " + choix.get(c) + " " + groupes);
 	}
 	
 	public void decremente(Couleur c){
@@ -73,11 +70,12 @@ public class Compteur implements IDrawable, DrawOperationAware {
 
 	@Override
 	public void draw() {
-		op.fillRect(Color.lightGray, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur(), 1.0f);
+//		op.fillRect(Color.lightGray, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur(), 1.0f);
 		op.drawRect(Color.black, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur());
 		int l = 0, h = 0, x = 0, y = 0, p = 0;
 		int i = 0;
 		for (Groupe g : groupes) {
+
 			if (this.horizontal) {
 				l = Math.min(surface.getHauteur(), surface.getLargeur() / nbCouleurs);
 				h = surface.getHauteur();
@@ -90,9 +88,12 @@ public class Compteur implements IDrawable, DrawOperationAware {
 				x = surface.getX() + 1;
 				y = surface.getY() + 1 + i * h;
 			}
-			boolean show = choix.get(g.getCouleur()) < g.getTaille();
+			
 
-			if(choix.get(g.getCouleur()) > 0){
+			Integer how = choix.get(g.getCouleur());
+//			how = how == null ? 0 : how;
+			if(how != null){
+				
 				Couleur c = g.getCouleur();
 				op.fillRect(new Color(c.getRgba()), x, y, l - 1, h - 1, 1.0f);
 	
@@ -102,12 +103,14 @@ public class Compteur implements IDrawable, DrawOperationAware {
 				
 	
 				if (this.horizontal) {
-					op.drawChar("0", x, y + (int) (l * 0.8), (int) (l * 0.7));
+					op.drawChar(String.valueOf(how), x, y + (int) (l * 0.8), (int) (l * 0.7));
 				}
 				else {
-					op.drawChar("0", x, y + (int) (h * 0.8), (int) (h * 0.7));
+					op.drawChar(String.valueOf(how), x, y + (int) (h * 0.8), (int) (h * 0.7));
 				}
 			}
+			
+			
 			i++;
 		}
 	}
