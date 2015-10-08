@@ -39,34 +39,32 @@ public class GameSequence implements ISequence, Observer {
 
 	private void prepare() {
 		double marge = 10.0;
-		double panelHau = 30;
 		double colorChooserHau = 100;
 		double compteurTail = 100;
 		double lar = controller.getSurface().getLargeur() - marge * 2.0 - compteurTail;
 		double hau = controller.getSurface().getHauteur() - marge * 2.0 - colorChooserHau - compteurTail;
 
 		double min = Math.min(lar, hau);
-		double max = Math.max(lar, hau);
-		double ref1, ref2;
+		double ref1 = 0;
 		if (controller.getSurface().getLargeur() < controller.getSurface().getHauteur()) {
 			ref1 = (min / picross.getLargeur());
-			ref2 = (max / picross.getHauteur());
 		}
 		else {
 			ref1 = (min / picross.getHauteur());
-			ref2 = (max / picross.getLargeur());
 		}
 
 		int celSize = (int) ref1;// (int) Math.min(ref1, ref2);
 		double xi, yi;
 		for (int i = 0; i < picross.getHauteur(); i++) {
-			yi = marge + i * celSize + colorChooserHau + compteurTail;
+			int g = ((i % 5) == 4 ? 2 : 0) + 2 * (i / 5);
+			yi = marge + i * celSize + colorChooserHau + compteurTail + g ;
 			compteurLigne.add(i,
 				new Compteur(new Surface((int) marge, (int) yi, (int) compteurTail, celSize),
 					picross.getLigne(i), true, picross.getNbCouleur()));
 
 			for (int j = 0; j < picross.getLargeur(); j++) {
-				xi = marge + j * celSize + compteurTail;
+				int v = ((j % 5) == 4 ? 2 : 0) + 2 * (j / 5);
+				xi = marge + j * celSize + compteurTail + v;
 				if(i == 0){
 					compteurColonne.add(j,
 					new Compteur(new Surface((int) xi, (int) (marge + colorChooserHau), celSize, (int) compteurTail),
@@ -114,7 +112,7 @@ public class GameSequence implements ISequence, Observer {
 
 	@Override
 	public void draw() {
-		this.op.clean();
+//		this.op.clean();
 		this.chooser.draw();
 		for (Cellule c : cellules) {
 			c.draw();

@@ -25,6 +25,7 @@ public class Fenetre implements Iterable<IDrawable> {
 	private Timer timer;
 	private List<IDrawable> drawables = new ArrayList<IDrawable>();
 	private ISequence sequence;
+	private Image background;
 
 	public Fenetre(int largeur, int hauteur) {
 		this.frame = new JFrame("Picross");
@@ -91,7 +92,8 @@ public class Fenetre implements Iterable<IDrawable> {
 				if (sequence != null) {
 					sequence.activate();
 				}
-				f.getDrawOperation().clean();
+				
+				f.drawBackground();
 				for (IDrawable drw : f) {
 					if (drw instanceof DrawOperationAware)
 						((DrawOperationAware) drw).setDrawOperation(f.getDrawOperation());
@@ -102,6 +104,14 @@ public class Fenetre implements Iterable<IDrawable> {
 		};
 
 		this.timer.schedule(task, 0, 10);
+	}
+	
+	private void drawBackground(){
+		if(background != null){
+			this.getDrawOperation().drawImage(background, 0, 0, largeur, hauteur, 0, 0, background.getWidth(null), background.getHeight(null));
+		}else{
+			this.getDrawOperation().clean();
+		}
 	}
 
 	public Iterator<IDrawable> iterator() {
@@ -122,6 +132,10 @@ public class Fenetre implements Iterable<IDrawable> {
 
 	public Canvas getBuffer() {
 		return this.buffer;
+	}
+
+	public void setBackground(Image background) {
+		this.background = background;
 	}
 
 }

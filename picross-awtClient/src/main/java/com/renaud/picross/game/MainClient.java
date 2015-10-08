@@ -20,11 +20,13 @@ public class MainClient {
 
 	public final static void main(String[] args) {
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/ferrari.jpg");
+		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/puppette.jpg");
+		Image background = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/background/background_pourpre.png");
+		
 		Picross picross = new Picross();
-		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 15, 0.1);
+		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 15, 0.01);
 		Finalizer finalizer = new LighterFinalizer(0.4);
-		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 20);
+		PicrossGeneratorImpl generator = new PicrossGeneratorImpl(new AWTPixelReader(image).getTable(), picross, 50);
 		generator.computeImage();
 		resolver.resolve(picross);
 		finalizer.finalize(picross);
@@ -41,6 +43,7 @@ public class MainClient {
 		game.setPicross(picross);
 
 		Fenetre f = new Fenetre(largeur, hauteur);
+		f.setBackground(background);
 		f.getBuffer().addMouseListener(gx);
 		f.getBuffer().addMouseMotionListener(gx);
 		f.setSequence(gx);

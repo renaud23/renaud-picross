@@ -19,6 +19,7 @@ public class Compteur implements IDrawable, DrawOperationAware {
 	private boolean horizontal;
 	private IDrawOperation op;
 	private int nbCouleurs;
+	private Color backgroundColor = new Color(255, 0, 255);
 	
 	private Map<Couleur, Integer> choix = new HashMap<>();
 	
@@ -29,6 +30,9 @@ public class Compteur implements IDrawable, DrawOperationAware {
 		this.horizontal = horizontal;
 		this.nbCouleurs = nbCouleurs;
 	
+		for(Groupe g : groupes){
+			this.choix.put(g.getCouleur(), 0);
+		}
 	}
 
 	public void refresh(Collection<Groupe> groupes) {
@@ -70,7 +74,7 @@ public class Compteur implements IDrawable, DrawOperationAware {
 
 	@Override
 	public void draw() {
-//		op.fillRect(Color.lightGray, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur(), 1.0f);
+		op.fillRect(backgroundColor, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur(), 1.0f);
 		op.drawRect(Color.black, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur());
 		int l = 0, h = 0, x = 0, y = 0, p = 0;
 		int i = 0;
@@ -90,10 +94,9 @@ public class Compteur implements IDrawable, DrawOperationAware {
 			}
 			
 
-			Integer how = choix.get(g.getCouleur());
-//			how = how == null ? 0 : how;
-			if(how != null){
-				
+			Integer how = choix.get(g.getCouleur()) == 0 ? g.getTaille() : Math.max(g.getTaille() - choix.get(g.getCouleur()), 0);
+			
+			if(how > 0){
 				Couleur c = g.getCouleur();
 				op.fillRect(new Color(c.getRgba()), x, y, l - 1, h - 1, 1.0f);
 	
@@ -108,8 +111,8 @@ public class Compteur implements IDrawable, DrawOperationAware {
 				else {
 					op.drawChar(String.valueOf(how), x, y + (int) (h * 0.8), (int) (h * 0.7));
 				}
-			}
 			
+			}
 			
 			i++;
 		}
