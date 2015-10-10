@@ -38,37 +38,32 @@ public class GameSequence implements ISequence, Observer {
 	}
 
 	private void prepare() {
-		double marge = 10.0;
+		int blockMarge = 2;
+		double marge = 15.0;
 		double colorChooserHau = 100;
 		double compteurTail = 100;
-		double lar = controller.getSurface().getLargeur() - marge * 2.0 - compteurTail;
-		double hau = controller.getSurface().getHauteur() - marge * 2.0 - colorChooserHau - compteurTail;
+		double lar = controller.getSurface().getLargeur() - marge * 2.0 - compteurTail - blockMarge * (picross.getLargeur()/5);
+		double hau = controller.getSurface().getHauteur() - marge * 2.0 - colorChooserHau - compteurTail - blockMarge * (picross.getHauteur()/5);
+		
+		double t1 = lar / picross.getLargeur();
+		double t2 = hau / picross.getHauteur();	
 
-		double min = Math.min(lar, hau);
-		double ref1 = 0;
-		if (controller.getSurface().getLargeur() < controller.getSurface().getHauteur()) {
-			ref1 = (min / picross.getLargeur());
-		}
-		else {
-			ref1 = (min / picross.getHauteur());
-		}
-
-		int celSize = (int) ref1;// (int) Math.min(ref1, ref2);
+		int celSize = (int) Math.min(t1,  t2);
 		double xi, yi;
 		for (int i = 0; i < picross.getHauteur(); i++) {
-			int g = ((i % 5) == 4 ? 2 : 0) + 2 * (i / 5);
+			int g = ((i % 5) == 5 ? blockMarge : 0) + blockMarge * (i / 5);
 			yi = marge + i * celSize + colorChooserHau + compteurTail + g ;
 			compteurLigne.add(i,
 				new Compteur(new Surface((int) marge, (int) yi, (int) compteurTail, celSize),
-					picross.getLigne(i), true, picross.getNbCouleur()));
+					picross.getLigne(i), true, picross.getCouleurs()));
 
 			for (int j = 0; j < picross.getLargeur(); j++) {
-				int v = ((j % 5) == 4 ? 2 : 0) + 2 * (j / 5);
+				int v = ((j % 5) == 5 ? 2 : 0) + 2 * (j / 5);
 				xi = marge + j * celSize + compteurTail + v;
 				if(i == 0){
 					compteurColonne.add(j,
 					new Compteur(new Surface((int) xi, (int) (marge + colorChooserHau), celSize, (int) compteurTail),
-						picross.getColonne(j), false, picross.getNbCouleur()));
+						picross.getColonne(j), false, picross.getCouleurs()));
 				}
 
 				Color co = new Color(0, 0, 0, 0);

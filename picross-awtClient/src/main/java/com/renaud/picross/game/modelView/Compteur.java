@@ -3,7 +3,9 @@ package com.renaud.picross.game.modelView;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.Groupe;
@@ -19,19 +21,23 @@ public class Compteur implements IDrawable, DrawOperationAware {
 	private boolean horizontal;
 	private IDrawOperation op;
 	private int nbCouleurs;
+	private Set<Couleur> couleurs;
 	private Color backgroundColor = new Color(255, 0, 255);
 	
+	private Map<Couleur, Groupe> quickAccess = new HashMap<>();
 	private Map<Couleur, Integer> choix = new HashMap<>();
 	
 
-	public Compteur(Surface surface, Collection<Groupe> groupes, boolean horizontal, int nbCouleurs) {
+	public Compteur(Surface surface, Collection<Groupe> groupes, boolean horizontal, Set<Couleur> couleurs) {
 		this.groupes = groupes;
 		this.surface = surface;
 		this.horizontal = horizontal;
-		this.nbCouleurs = nbCouleurs;
+		this.nbCouleurs = couleurs.size();
+		this.couleurs = couleurs;
 	
 		for(Groupe g : groupes){
 			this.choix.put(g.getCouleur(), 0);
+			quickAccess.put(g.getCouleur(), g);
 		}
 	}
 
@@ -78,8 +84,12 @@ public class Compteur implements IDrawable, DrawOperationAware {
 		op.drawRect(Color.black, surface.getX(), surface.getY(), surface.getLargeur(), surface.getHauteur());
 		int l = 0, h = 0, x = 0, y = 0, p = 0;
 		int i = 0;
-		for (Groupe g : groupes) {
+		for (Couleur cRef : couleurs) {
 
+			Groupe g = quickAccess.get(cRef);
+			if(g != null){
+			
+			
 			if (this.horizontal) {
 				l = Math.min(surface.getHauteur(), surface.getLargeur() / nbCouleurs);
 				h = surface.getHauteur();
@@ -112,6 +122,7 @@ public class Compteur implements IDrawable, DrawOperationAware {
 					op.drawChar(String.valueOf(how), x, y + (int) (h * 0.8), (int) (h * 0.7));
 				}
 			
+			}
 			}
 			
 			i++;
