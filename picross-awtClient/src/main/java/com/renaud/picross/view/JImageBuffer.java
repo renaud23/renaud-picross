@@ -272,8 +272,12 @@ public class JImageBuffer implements IDrawOperation {
 
 	public void fillCircle(Color color, double x, double y, double rayon,
 		float alpha) {
-		// TODO Auto-generated method stub
-
+		// Graphics2D g = this.image.createGraphics();
+		// g.setColor(color);
+		//
+		// Shape s = new Ellipse2D.Double(x, y, rayon * 2, rayon * 2);
+		// g.draw(s);
+		// g.dispose();
 	}
 
 	public void drawChar(String ch, int x, int y) {

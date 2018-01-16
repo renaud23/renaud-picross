@@ -12,4 +12,10 @@ public class DistanceMixte implements DistanceResolver {
 		return simple.getdistance(a, b) + ponderee.getdistance(a, b);
 	}
 
+	@Override
+	public double getMaxValue() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

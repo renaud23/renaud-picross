@@ -14,6 +14,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -29,7 +30,7 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 
 	private int largeur;
 	private int hauteur;
-	private Color backgroundColor = Color.gray;
+	private Color backgroundColor = new Color(50, 50, 50);
 
 	public CanvasHwdBuffer(int largeur, int hauteur) {
 		this.setPreferredSize(new Dimension(largeur, hauteur));
@@ -219,7 +220,13 @@ public class CanvasHwdBuffer extends Canvas implements IDrawOperation {
 
 	public void fillCircle(Color color, double x, double y, double rayon,
 		float alpha) {
-		// TODO Auto-generated method stub
+
+		Graphics2D gr = (Graphics2D) this.strategy.getDrawGraphics();
+		gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
+		gr.setColor(color);
+		Shape s = new Ellipse2D.Double(x, y, rayon * 2l, rayon * 2l);
+		gr.fill(s);
 
 	}
 

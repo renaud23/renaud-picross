@@ -30,7 +30,7 @@ public class AWTPixelReader implements PixelReader {
 				pg.grabPixels();
 				for (int i = 0; i < t; i++) {
 					Color color = new Color(data[i]);
-					pt.setPixel(new Couleur(color.getRed(), color.getGreen(), color.getBlue()), i % l, i / l);
+					pt.setPixel(new Couleur(color.getRed(), color.getGreen(), color.getBlue(), data[i] >>> 24), i % l, i / l);
 				}
 				return pt;
 			}

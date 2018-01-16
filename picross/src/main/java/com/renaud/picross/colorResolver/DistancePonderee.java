@@ -21,4 +21,9 @@ public class DistancePonderee implements DistanceResolver {
 		return r + g + bl;
 	}
 
+	@Override
+	public double getMaxValue() {
+		return 3l;
+	}
+
 }

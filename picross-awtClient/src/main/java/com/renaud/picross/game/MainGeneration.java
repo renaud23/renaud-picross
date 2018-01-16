@@ -7,7 +7,7 @@ import com.renaud.picros.finalize.Finalizer;
 import com.renaud.picros.finalize.LighterFinalizer;
 import com.renaud.picross.colorResolver.ColorResolver;
 import com.renaud.picross.colorResolver.DistanceSimple;
-import com.renaud.picross.colorResolver.InspectorResolver;
+import com.renaud.picross.colorResolver.PerleHamaResolver;
 import com.renaud.picross.generator.PicrossGeneratorImpl;
 import com.renaud.picross.model.Picross;
 import com.renaud.picross.view.AWTPixelReader;
@@ -22,7 +22,7 @@ public class MainGeneration {
 		SimpleImageLoader sld = new SimpleImageLoader();
 		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/ferrari.jpg");
 		Picross picross = new Picross();
-		ColorResolver resolver = new InspectorResolver(picross, new DistanceSimple(), 15, 0.1);
+		ColorResolver resolver = new PerleHamaResolver(picross, new DistanceSimple(), 100, 0.8);
 		Finalizer finalizer = new LighterFinalizer(0.4);
 		f.addDrawable(addPicross(image, 10, 10, 20, 5, picross, resolver, finalizer));
 		f.start();

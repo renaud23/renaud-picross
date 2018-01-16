@@ -19,4 +19,9 @@ public class DistanceSimple implements DistanceResolver {
 		return r + g + bl;
 	}
 
+	@Override
+	public double getMaxValue() {
+		return 195075l;
+	}
+
 }
