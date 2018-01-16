@@ -2,35 +2,46 @@ package hama;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.renaud.picross.model.Couleur;
 
 public class Nuancier {
 
-	public static Set<Couleur> getCouleurs() {
-		Set<Couleur> nuanciers = new HashSet<>();
-		nuanciers.add(Couleur.NOIR);
-		nuanciers.add(Couleur.JAUNE);
+	private Set<Perle> perles;
 
-		nuanciers.add(Couleur.BLANC);
-		nuanciers.add(Couleur.CREME);
-		nuanciers.add(Couleur.ORANGE);
-		nuanciers.add(Couleur.ROUGE);
-		nuanciers.add(Couleur.ROSE);
-		nuanciers.add(Couleur.VIOLET);
-		nuanciers.add(Couleur.BLEU_FONCE);
-		nuanciers.add(Couleur.BLEU);
-		nuanciers.add(Couleur.VERT);
-		nuanciers.add(Couleur.VERT_CLAIR);
-		nuanciers.add(Couleur.MARRON);
-		nuanciers.add(Couleur.GRIS);
-		nuanciers.add(Couleur.CARAMEL);
-		nuanciers.add(Couleur.MARRON_CLAIR);
-		nuanciers.add(Couleur.CHAIR);
-		nuanciers.add(Couleur.BEIGE);
-		nuanciers.add(Couleur.VERT_FONCE);
-		nuanciers.add(Couleur.LIE_DE_VIN);
+	public Nuancier() {
+		perles = new HashSet<>();
 
-		return nuanciers;
+		perles.add(Perle.NOIR);
+		perles.add(Perle.JAUNE);
+		perles.add(Perle.BLANC);
+		perles.add(Perle.CREME);
+		perles.add(Perle.ORANGE);
+		perles.add(Perle.ROUGE);
+		perles.add(Perle.ROSE);
+		perles.add(Perle.VIOLET);
+		perles.add(Perle.BLEU_FONCE);
+		perles.add(Perle.BLEU);
+		perles.add(Perle.VERT);
+		perles.add(Perle.VERT_CLAIR);
+		perles.add(Perle.MARRON);
+		perles.add(Perle.GRIS);
+		perles.add(Perle.CARAMEL);
+		perles.add(Perle.MARRON_CLAIR);
+		perles.add(Perle.CHAIR);
+		perles.add(Perle.BEIGE);
+		perles.add(Perle.VERT_FONCE);
+		perles.add(Perle.LIE_DE_VIN);
+		perles.add(Perle.TURQUOISE);
+		perles.add(Perle.CERISE);
+	}
+
+	public Set<Perle> getPerles() {
+		return perles;
+	}
+
+	public Set<Couleur> getCouleurs() {
+		return perles.stream().map(p -> p.getCouleur()).collect(Collectors.toSet());
 	}
 }

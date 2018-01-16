@@ -6,6 +6,7 @@ public class DistanceSimple implements DistanceResolver {
 
 	@Override
 	public double getdistance(Couleur a, Couleur b) {
+
 		double r = a.getR();
 		r -= b.getR();
 		r *= r;
@@ -16,7 +17,7 @@ public class DistanceSimple implements DistanceResolver {
 		bl -= b.getB();
 		bl *= bl;
 
-		return r + g + bl;
+		return Math.sqrt(2l * r + 4l * g + 3l * bl);
 	}
 
 	@Override

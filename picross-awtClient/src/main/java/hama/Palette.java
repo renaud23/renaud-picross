@@ -52,9 +52,9 @@ public class Palette implements IDrawable, DrawOperationAware {
 			filled = true;
 			int i = 0;
 			for (Couleur c : couleurs) {
-				i++;
-
 				buffer.fillRect(new Color(c.getR(), c.getG(), c.getB()), i * (size + marge), 0, size, size, 1.0f);
+				buffer.drawRect(Color.WHITE, i * (size + marge), 0, size - 1, size - 1);
+				i++;
 			}
 
 		}
