@@ -1,4 +1,4 @@
-package hama;
+package hama.drawer;
 
 import java.awt.Color;
 

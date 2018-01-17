@@ -1,17 +1,17 @@
 package hama;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.renaud.picross.model.Couleur;
 
 public class Nuancier {
 
-	private Set<Perle> perles;
+	private List<Perle> perles;
 
 	public Nuancier() {
-		perles = new HashSet<>();
+		perles = new ArrayList<>();
 
 		perles.add(Perle.NOIR);
 		perles.add(Perle.JAUNE);
@@ -37,11 +37,11 @@ public class Nuancier {
 		perles.add(Perle.CERISE);
 	}
 
-	public Set<Perle> getPerles() {
+	public List<Perle> getPerles() {
 		return perles;
 	}
 
-	public Set<Couleur> getCouleurs() {
-		return perles.stream().map(p -> p.getCouleur()).collect(Collectors.toSet());
+	public List<Couleur> getCouleurs() {
+		return perles.stream().map(p -> p.getCouleur()).collect(Collectors.toList());
 	}
 }

@@ -1,6 +1,6 @@
 package hama;
 
-import java.util.Set;
+import java.util.List;
 
 import com.renaud.picross.colorResolver.DistanceResolver;
 import com.renaud.picross.colorResolver.DistanceSimple;
@@ -11,8 +11,7 @@ public class HamaGenerator {
 
 	private static DistanceResolver distance = new DistanceSimple();
 
-	public static Hama compute(PixelTable tableIn, Set<Perle> nuancier) {
-		// PixelTable tableOut = new PixelTable(tableIn.getLargeur(), tableIn.getHauteur());
+	public static Hama compute(PixelTable tableIn, List<Perle> nuancier) {
 		Hama hama = new Hama(tableIn.getLargeur(), tableIn.getHauteur());
 		for (int i = 0; i < tableIn.getHauteur(); i++) {
 			for (int j = 0; j < tableIn.getLargeur(); j++) {
@@ -24,7 +23,7 @@ public class HamaGenerator {
 		return hama;
 	}
 
-	private static Perle solve(Couleur in, Set<Perle> nuancier) {
+	private static Perle solve(Couleur in, List<Perle> nuancier) {
 		double normal = 9999999;
 		Perle who = Perle.BLANC;
 		for (Perle m : nuancier) {

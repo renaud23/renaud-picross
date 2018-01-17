@@ -4,6 +4,8 @@ import java.awt.Canvas;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,6 +48,7 @@ public class Fenetre implements Iterable<IDrawable> {
 
 		this.frame.setResizable(true);
 		this.timer = new Timer();
+
 	}
 
 	public void setIconImage(Image image) {
@@ -81,6 +84,14 @@ public class Fenetre implements Iterable<IDrawable> {
 		return this.buffer.getBufferStrategy();
 	}
 
+	public void addMouseMotionListener(MouseMotionListener l) {
+		this.buffer.addMouseMotionListener(l);
+	}
+
+	public void addMouseListener(MouseListener l) {
+		this.buffer.addMouseListener(l);
+	}
+
 	public void start() {
 
 		final Fenetre f = this;
@@ -92,7 +103,7 @@ public class Fenetre implements Iterable<IDrawable> {
 				if (sequence != null) {
 					sequence.activate();
 				}
-				
+
 				f.drawBackground();
 				for (IDrawable drw : f) {
 					if (drw instanceof DrawOperationAware)
@@ -105,11 +116,12 @@ public class Fenetre implements Iterable<IDrawable> {
 
 		this.timer.schedule(task, 0, 10);
 	}
-	
-	private void drawBackground(){
-		if(background != null){
+
+	private void drawBackground() {
+		if (background != null) {
 			this.getDrawOperation().drawImage(background, 0, 0, largeur, hauteur, 0, 0, background.getWidth(null), background.getHeight(null));
-		}else{
+		}
+		else {
 			this.getDrawOperation().clean();
 		}
 	}

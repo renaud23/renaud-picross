@@ -1,4 +1,4 @@
-package hama;
+package hama.drawer;
 
 import java.awt.Color;
 
@@ -7,6 +7,8 @@ import com.renaud.picross.view.DrawOperationAware;
 import com.renaud.picross.view.IDrawOperation;
 import com.renaud.picross.view.IDrawable;
 import com.renaud.picross.view.JImageBuffer;
+
+import hama.Hama;
 
 public class HamaDrawer implements IDrawable, DrawOperationAware {
 

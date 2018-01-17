@@ -27,7 +27,6 @@ public class Reducer {
 		PixelTable finalTable = new PixelTable(largeur, hauteur);
 		int xi = (int) Math.floor(pixels.getLargeur() / (double) largeur);
 		int yi = (int) Math.floor(pixels.getHauteur() / (double) hauteur);
-		System.out.println(yi + " " + pixels.getHauteur() / (double) hauteur);
 		for (int i = 0; i < hauteur; i++) {
 			for (int j = 0; j < largeur; j++) {
 				Couleur col = Reducer.getZoneCouleur(pixels, j, i, xi, yi);
