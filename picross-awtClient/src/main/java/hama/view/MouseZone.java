@@ -18,17 +18,10 @@ public abstract class MouseZone {
 	public abstract void mouseExited();
 
 	public abstract void mouseMove(int x, int y);
-	// public void mouseEntered(int x, int y) {
-	// System.out.println("enter" + x + " " + y);
-	// }
-	//
-	// public void mouseExited() {
-	// System.out.println("out");
-	// }
-	//
-	// public void mouseMove(int x, int y) {
-	// System.out.println("move " + x + " " + y);
-	// }
+
+	public abstract void mousePressed(int button, int x, int y);
+
+	public abstract void mouseReleased(int button, int x, int y);
 
 	public boolean isIn(int x, int y) {
 		boolean state = false;

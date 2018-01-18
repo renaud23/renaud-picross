@@ -9,10 +9,13 @@ import com.renaud.picross.view.IDrawable;
 import com.renaud.picross.view.JImageBuffer;
 
 import hama.Nuancier;
+import hama.view.Action;
+import hama.view.HamaGame.NuancierRenew;
+import hama.view.StoreObserver;
 
-public class PaletteDrawer implements IDrawable, DrawOperationAware {
+public class PaletteDrawer implements IDrawable, DrawOperationAware, StoreObserver {
 
-	private Couleur couleurActive = null;
+	private Couleur couleurMouseOver = null;
 	private boolean filled = false;
 	private IDrawOperation drawer;
 	private IDrawOperation buffer;
@@ -53,11 +56,13 @@ public class PaletteDrawer implements IDrawable, DrawOperationAware {
 			buffer.transparentClean();
 			filled = true;
 			int i = 0;
-			for (Couleur c : nuancier.getCouleurs()) {
+			for (Couleur c : nuancier.getCouleursRef()) {
 				buffer.fillRect(new Color(c.getR(), c.getG(), c.getB()), i * (size + marge), 0, size, size, 1.0f);
-				if (!c.equals(couleurActive)) {
-					buffer.drawRect(Color.WHITE, i * (size + marge), 0, size - 1, size - 1);
+
+				if (nuancier.estUtilisee(c) && !c.equals(couleurMouseOver)) {
+					buffer.drawRect(Color.yellow, i * (size + marge), 0, size - 1, size - 1);
 				}
+
 				i++;
 			}
 
@@ -66,12 +71,20 @@ public class PaletteDrawer implements IDrawable, DrawOperationAware {
 	}
 
 	public Couleur getCouleurActive() {
-		return couleurActive;
+		return couleurMouseOver;
 	}
 
 	public void setCouleurActive(Couleur couleurActive) {
 		filled = false;
-		this.couleurActive = couleurActive;
+		this.couleurMouseOver = couleurActive;
+	}
+
+	@Override
+	public void notify(Action action) {
+		if (action instanceof NuancierRenew) {
+			filled = false;
+		}
+
 	}
 
 }

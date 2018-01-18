@@ -9,11 +9,16 @@ import com.renaud.picross.view.IDrawable;
 import com.renaud.picross.view.JImageBuffer;
 
 import hama.Hama;
+import hama.Perle;
+import hama.view.Action;
+import hama.view.HamaGame.HamaRenew;
+import hama.view.PaletteView.PerleOver;
+import hama.view.StoreObserver;
 
-public class HamaDrawer implements IDrawable, DrawOperationAware {
+public class HamaDrawer implements IDrawable, DrawOperationAware, StoreObserver {
 
 	private IDrawOperation drawer;
-
+	private Perle PerleOver = null;
 	private Hama hama;
 	private IDrawOperation buffer;
 	private int margeX = 5;
@@ -64,12 +69,29 @@ public class HamaDrawer implements IDrawable, DrawOperationAware {
 					Couleur couleur = hama.getPerle(j, i).getCouleur();
 
 					buffer.fillRect(new Color(couleur.getR(), couleur.getG(), couleur.getB(), couleur.getAlpha()), xi, yi, pixelSize - marge, pixelSize - marge, 1.0f);
+					if (PerleOver != null && couleur.equals(PerleOver.getCouleur())) {
+						buffer.drawRect(Color.white, xi, yi, pixelSize - marge, pixelSize - marge);
+					}
 				}
 			}
 			filled = true;
 		}
 		this.drawer.drawImage(buffer.getImage(), margeX, margeY, 0, 0, 0, 1.0, 1.0f);
 
+	}
+
+	@Override
+	public void notify(Action action) {
+		if (action instanceof HamaRenew) {
+			this.hama = ((HamaRenew) action).getHama();
+			buffer = new JImageBuffer(Color.white, hama.getLargeur() * pixelSize, hama.getHauteur() * pixelSize);
+			filled = false;
+		}
+		else
+			if (action instanceof PerleOver) {
+				PerleOver = ((PerleOver) action).getPerle();
+				filled = false;
+			}
 	}
 
 }

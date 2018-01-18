@@ -8,33 +8,59 @@ import com.renaud.picross.model.Couleur;
 
 public class Nuancier {
 
+	private List<Perle> perlesRef;
 	private List<Perle> perles;
 
 	public Nuancier() {
+		perlesRef = new ArrayList<>();
 		perles = new ArrayList<>();
 
-		perles.add(Perle.NOIR);
-		perles.add(Perle.JAUNE);
-		perles.add(Perle.BLANC);
-		perles.add(Perle.CREME);
-		perles.add(Perle.ORANGE);
-		perles.add(Perle.ROUGE);
-		perles.add(Perle.ROSE);
-		perles.add(Perle.VIOLET);
-		perles.add(Perle.BLEU_FONCE);
-		perles.add(Perle.BLEU);
-		perles.add(Perle.VERT);
-		perles.add(Perle.VERT_CLAIR);
-		perles.add(Perle.MARRON);
-		perles.add(Perle.GRIS);
-		perles.add(Perle.CARAMEL);
-		perles.add(Perle.MARRON_CLAIR);
-		perles.add(Perle.CHAIR);
-		perles.add(Perle.BEIGE);
-		perles.add(Perle.VERT_FONCE);
-		perles.add(Perle.LIE_DE_VIN);
-		perles.add(Perle.TURQUOISE);
-		perles.add(Perle.CERISE);
+		perlesRef.add(Perle.NOIR);
+		perlesRef.add(Perle.JAUNE);
+		perlesRef.add(Perle.BLANC);
+		perlesRef.add(Perle.CREME);
+		perlesRef.add(Perle.ORANGE);
+		perlesRef.add(Perle.ROUGE);
+		perlesRef.add(Perle.ROSE);
+		perlesRef.add(Perle.VIOLET);
+		perlesRef.add(Perle.BLEU_FONCE);
+		perlesRef.add(Perle.BLEU);
+		perlesRef.add(Perle.VERT);
+		perlesRef.add(Perle.VERT_CLAIR);
+		perlesRef.add(Perle.MARRON);
+		perlesRef.add(Perle.GRIS);
+		perlesRef.add(Perle.CARAMEL);
+		perlesRef.add(Perle.MARRON_CLAIR);
+		perlesRef.add(Perle.CHAIR);
+		perlesRef.add(Perle.BEIGE);
+		perlesRef.add(Perle.VERT_FONCE);
+		perlesRef.add(Perle.LIE_DE_VIN);
+		perlesRef.add(Perle.TURQUOISE);
+		perlesRef.add(Perle.CERISE);
+
+		perles.addAll(perlesRef);
+	}
+
+	public boolean estUtilisee(Perle perle) {
+		return perles.contains(perle);
+	}
+
+	public boolean estUtilisee(Couleur c) {
+
+		for (Perle p : perles) {
+			if (p.getCouleur().equals(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void ajouter(Perle perle) {
+		this.perles.add(perle);
+	}
+
+	public void supprimer(Perle perle) {
+		perles.remove(perle);
 	}
 
 	public List<Perle> getPerles() {
@@ -43,5 +69,13 @@ public class Nuancier {
 
 	public List<Couleur> getCouleurs() {
 		return perles.stream().map(p -> p.getCouleur()).collect(Collectors.toList());
+	}
+
+	public List<Couleur> getCouleursRef() {
+		return perlesRef.stream().map(p -> p.getCouleur()).collect(Collectors.toList());
+	}
+
+	public void setPerlesRef(List<Perle> perlesRef) {
+		this.perlesRef = perlesRef;
 	}
 }
