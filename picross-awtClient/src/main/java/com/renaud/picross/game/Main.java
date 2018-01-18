@@ -20,17 +20,22 @@ import hama.view.PaletteView;
 public class Main {
 
 	public final static void main(String[] args) {
-		Fenetre f = new Fenetre(800, 600);
+		int hamaLargeur = 100;
+		int winWidth = 800;
+		int winHeight = 600;
+		int paletteHauteur = 10;
+
+		Fenetre f = new Fenetre(winWidth, winHeight);
 		SimpleImageLoader sld = new SimpleImageLoader();
 		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/joconde.jpg");
 
-		int largeur = 50;
 		Nuancier nuancier = new Nuancier();
-		PixelTable table = Reducer.reduce(image, largeur);
+		PixelTable table = Reducer.reduce(image, hamaLargeur);
 		Hama hama = HamaGenerator.compute(table, nuancier.getPerles());
 
-		PaletteDrawer paletteDrawer = new PaletteDrawer(nuancier, 0, 0, 10);
-		IDrawable hamaDrawer = new HamaDrawer(hama, largeur + 1, 32, 4, 1);
+		int hamaPerleSize = Math.min((winHeight - paletteHauteur) / hama.getHauteur(), (winWidth - hamaLargeur) / hama.getLargeur());
+		PaletteDrawer paletteDrawer = new PaletteDrawer(nuancier, 0, 0, paletteHauteur);
+		IDrawable hamaDrawer = new HamaDrawer(hama, hamaLargeur + 1, 32, hamaPerleSize, hamaPerleSize > 1 ? 1 : 0);
 		// view
 		PaletteView paletteView = new PaletteView(paletteDrawer, nuancier, 0, 0, 10);
 

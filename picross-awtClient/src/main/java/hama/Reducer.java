@@ -25,8 +25,8 @@ public class Reducer {
 
 	private static PixelTable compute(PixelTable pixels, int largeur, int hauteur) {
 		PixelTable finalTable = new PixelTable(largeur, hauteur);
-		int xi = (int) Math.floor(pixels.getLargeur() / (double) largeur);
-		int yi = (int) Math.floor(pixels.getHauteur() / (double) hauteur);
+		double xi = pixels.getLargeur() / (double) largeur;
+		double yi = pixels.getHauteur() / (double) hauteur;
 		for (int i = 0; i < hauteur; i++) {
 			for (int j = 0; j < largeur; j++) {
 				Couleur col = Reducer.getZoneCouleur(pixels, j, i, xi, yi);
@@ -37,25 +37,18 @@ public class Reducer {
 		return finalTable;
 	}
 
-	private static Couleur getZoneCouleur(PixelTable pixels, int xi, int yi, int largeur, int hauteur) {
-		int startY = yi * hauteur;
-		int startX = xi * largeur;
-
+	private static Couleur getZoneCouleur(PixelTable pixels, int xi, int yi, double largeur, double hauteur) {
+		int startY = (int) Math.round(yi * hauteur);
+		int startX = (int) Math.round(xi * largeur);
+		int endY = (int) Math.round(Math.min(startY + hauteur, pixels.getHauteur()));
+		int endX = (int) Math.round(Math.min(startX + hauteur, pixels.getLargeur()));
 		List<Couleur> candidats = new ArrayList<>();
-		for (int i = 0; i < hauteur; i++) {
-			if ((i + startY) < pixels.getHauteur()) {
-				for (int j = 0; j < largeur; j++) {
-					if ((j + startX) < pixels.getLargeur()) {
-						int xx = startX + j;
-						int yy = startY + i;
-						Couleur c = pixels.getPixel(xx, yy);
-						candidats.add(c);
-
-					} // if
-				} // for
-			} // if
-		} // for
-
+		for (int i = startY; i < endY; i++) {
+			for (int j = startX; j < endX; j++) {
+				Couleur c = pixels.getPixel(j, i);
+				candidats.add(c);
+			}
+		}
 		return colorReducer.reduce(candidats);
 	}
 }
