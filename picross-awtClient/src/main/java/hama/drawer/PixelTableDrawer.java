@@ -69,4 +69,25 @@ public class PixelTableDrawer implements IDrawable, DrawOperationAware {
 
 	}
 
+	public void FillImage() {
+		buffer.transparentClean();
+		for (int i = 0; i < table.getHauteur(); i++) {
+
+			for (int j = 0; j < table.getLargeur(); j++) {
+				int xi = j * pixelSize;
+				int yi = i * pixelSize;
+
+				buffer.fillRect(new Color(table.getPixel(j, i).getR(), table.getPixel(j, i).getG(), table.getPixel(j, i).getB(), table.getPixel(j, i).getAlpha()), xi, yi, pixelSize - marge, pixelSize - marge, 1.0f);
+			}
+		}
+	}
+
+	public IDrawOperation getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(IDrawOperation buffer) {
+		this.buffer = buffer;
+	}
+
 }

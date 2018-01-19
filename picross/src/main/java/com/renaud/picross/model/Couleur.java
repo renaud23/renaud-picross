@@ -27,6 +27,8 @@ public class Couleur {
 	public final static Couleur LIE_DE_VIN = new Couleur(220, 50, 100);// 29
 	public final static Couleur TURQUOISE = new Couleur(30, 200, 200);// 31
 	public final static Couleur CERISE = new Couleur(230, 40, 50);// 33
+	public final static Couleur GRIS_CLAIR = new Couleur(170, 170, 170);// 33
+	public final static Couleur GRIS_FONCE = new Couleur(60, 60, 60);// 33
 
 	private int r;
 	private int g;

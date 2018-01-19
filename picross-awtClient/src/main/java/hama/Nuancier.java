@@ -37,6 +37,8 @@ public class Nuancier {
 		perlesRef.add(Perle.LIE_DE_VIN);
 		perlesRef.add(Perle.TURQUOISE);
 		perlesRef.add(Perle.CERISE);
+		perlesRef.add(Perle.GRIS_CLAIR);
+		perlesRef.add(Perle.GRIS_FONCE);
 
 		perles.addAll(perlesRef);
 	}

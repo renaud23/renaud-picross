@@ -68,9 +68,14 @@ public class HamaDrawer implements IDrawable, DrawOperationAware, StoreObserver 
 					// System.out.println(j + " " + i + " " + hama.getPerle(j, i));
 					Couleur couleur = hama.getPerle(j, i).getCouleur();
 
-					buffer.fillRect(new Color(couleur.getR(), couleur.getG(), couleur.getB(), couleur.getAlpha()), xi, yi, pixelSize - marge, pixelSize - marge, 1.0f);
+					Color color = new Color(couleur.getR(), couleur.getG(), couleur.getB(), couleur.getAlpha());
+
 					if (PerleOver != null && couleur.equals(PerleOver.getCouleur())) {
-						buffer.drawRect(Color.white, xi, yi, pixelSize - marge, pixelSize - marge);
+						buffer.drawRect(Color.white, xi, yi, pixelSize - marge - 1, pixelSize - marge - 1);
+						buffer.fillRect(color, xi, yi, pixelSize - marge, pixelSize - marge, 0.3f);
+					}
+					else {
+						buffer.fillRect(color, xi, yi, pixelSize - marge, pixelSize - marge, 1.0f);
 					}
 				}
 			}

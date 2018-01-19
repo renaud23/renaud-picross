@@ -19,6 +19,17 @@ public class PixelTable implements Iterable<Couleur> {
 		couleurs = new Couleur[taille];
 	}
 
+	public PixelTable getSub(int x, int y, int largeur, int hauteur) {
+		PixelTable t = new PixelTable(largeur, hauteur);
+		for (int i = 0; i < hauteur; i++) {
+			for (int j = 0; j < largeur; j++) {
+				t.setPixel(this.getPixel(x + j, y + i), j, i);
+			}
+		}
+
+		return t;
+	}
+
 	public Set<Couleur> getUseCouleurs() {
 		Set<Couleur> coul = new HashSet<>();
 		for (Couleur c : Arrays.asList(couleurs)) {

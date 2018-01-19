@@ -27,6 +27,8 @@ public class Perle {
 	public final static Perle LIE_DE_VIN = new Perle(Couleur.LIE_DE_VIN, "29", "lie de vin");// 29
 	public final static Perle TURQUOISE = new Perle(Couleur.TURQUOISE, "31", "turquoise");// 31
 	public final static Perle CERISE = new Perle(Couleur.CERISE, "33", "cerise");// 33
+	public final static Perle GRIS_CLAIR = new Perle(Couleur.GRIS_CLAIR, "70", "gris clair");// 33
+	public final static Perle GRIS_FONCE = new Perle(Couleur.GRIS_FONCE, "71", "gris foncé");// 33
 
 	private Couleur couleur;
 	private String code;

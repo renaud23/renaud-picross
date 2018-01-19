@@ -19,17 +19,19 @@ import hama.view.Store;
 public class Main {
 
 	public final static void main(String[] args) {
-		int hamaLargeur = 57;
+		int hamaLargeur = 200;
 		int winWidth = 800;
 		int winHeight = 600;
 		int paletteHauteur = 20;
 
 		Fenetre f = new Fenetre(winWidth, winHeight);
 		SimpleImageLoader sld = new SimpleImageLoader();
-		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/joconde.jpg");
+		Image image = sld.getImage(System.getProperty("user.dir") + "/src/main/resources/test.jpg");
 
 		Nuancier nuancier = new Nuancier();
 		PixelTable table = Reducer.reduce(image, hamaLargeur);
+		Reducer.save("d:/tmp/img.png", table);
+
 		HamaGame game = new HamaGame(table, nuancier);
 		Store.addObserver(game);
 
@@ -39,6 +41,7 @@ public class Main {
 
 		// hama
 		int hamaPerleSize = Math.min((winHeight - paletteHauteur) / game.getHama().getHauteur(), (winWidth - hamaLargeur) / game.getHama().getLargeur());
+		hamaPerleSize = hamaPerleSize > 0 ? hamaPerleSize : 1;
 		HamaDrawer hamaDrawer = new HamaDrawer(game.getHama(), hamaLargeur + 1, 32, hamaPerleSize, hamaPerleSize > 1 ? 1 : 0);
 
 		// draw opérations

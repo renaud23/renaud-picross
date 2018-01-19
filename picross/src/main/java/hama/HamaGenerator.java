@@ -2,14 +2,14 @@ package hama;
 
 import java.util.List;
 
+import com.renaud.picross.colorResolver.DistanceMixte;
 import com.renaud.picross.colorResolver.DistanceResolver;
-import com.renaud.picross.colorResolver.DistanceSimple;
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.PixelTable;
 
 public class HamaGenerator {
 
-	private static DistanceResolver distance = new DistanceSimple();
+	private static DistanceResolver distance = new DistanceMixte();
 
 	public static Hama compute(PixelTable tableIn, List<Perle> nuancier) {
 		Hama hama = new Hama(tableIn.getLargeur(), tableIn.getHauteur());

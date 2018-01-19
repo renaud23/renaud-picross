@@ -1,8 +1,14 @@
 package hama;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import com.renaud.picross.model.Couleur;
 import com.renaud.picross.model.PixelTable;
@@ -10,6 +16,7 @@ import com.renaud.picross.view.AWTPixelReader;
 
 import hama.colorReducer.ColorReducer;
 import hama.colorReducer.MoyenneReducer;
+import hama.drawer.PixelTableDrawer;
 
 public class Reducer {
 
@@ -17,6 +24,7 @@ public class Reducer {
 
 	public static PixelTable reduce(Image image, int largeur) {
 		PixelTable pixels = new AWTPixelReader(image).getTable();
+
 		double ratio = (double) pixels.getLargeur() / (double) pixels.getHauteur();
 		int hauteur = (int) Math.round(largeur / ratio);
 
@@ -50,5 +58,28 @@ public class Reducer {
 			}
 		}
 		return colorReducer.reduce(candidats);
+	}
+
+	public static void save(String path, PixelTable table) {
+		PixelTableDrawer dr = new PixelTableDrawer(table, 0, 0, 5, 0);
+		dr.FillImage();
+
+		Image img = dr.getBuffer().getImage();
+		// Create a buffered image with transparency
+		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+		// Draw the image on to the buffered image
+		Graphics2D bGr = bimage.createGraphics();
+		bGr.drawImage(img, 0, 0, null);
+		bGr.dispose();
+
+		File outputfile = new File(path);
+		try {
+			ImageIO.write(bimage, "png", outputfile);
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
